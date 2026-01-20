@@ -5,12 +5,13 @@ import Booking from '@/lib/models/booking.model';
 // GET /api/bookings/:id - Récupérer une réservation par ID
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }  // ✅ Changé en Promise
 ) {
   try {
+    const { id } = await params;  // ✅ Await params
     await connectDB();
 
-    const booking = await Booking.findById(params.id);
+    const booking = await Booking.findById(id);  // ✅ Utiliser id directement
 
     if (!booking) {
       return NextResponse.json(

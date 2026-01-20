@@ -18,6 +18,12 @@ export interface RootLayoutProps {
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="fr">
+      <head>
+        {/* Ajoutez ceci pour le manifest et les icônes */}
+        <link rel="manifest" href="/manifest.json" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        <meta name="theme-color" content="#0a0a0a" />
+      </head>
       <body className="font-sans antialiased">
         {/* Événement global : navigation bar */}
         <Navbar />

@@ -4,9 +4,10 @@ import Appointment from '@/lib/models/appointment.model';
 
 export async function PATCH(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }  // ✅ Changé en Promise
 ) {
   try {
+    const { id } = await params;  // ✅ Await params pour obtenir l'id
     await connectDB();
 
     const body = await req.json();
@@ -24,7 +25,7 @@ export async function PATCH(
     }
 
     const appointment = await Appointment.findByIdAndUpdate(
-      params.id,
+      id,  // ✅ Utiliser id au lieu de params.id
       { status },
       { new: true }
     );

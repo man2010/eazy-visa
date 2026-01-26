@@ -1,199 +1,188 @@
-import nodemailer from 'nodemailer';
+// src/services/email.service.ts
+
+import nodemailer, { Transporter } from "nodemailer";
+
+/**
+ * Charge et valide la config SMTP AU RUNTIME
+ */
+function getEmailConfig() {
+  const {
+    SMTP_HOST,
+    SMTP_PORT,
+    SMTP_SECURE,
+    SMTP_USER,
+    SMTP_PASS,
+    EMAIL_FROM,
+    ADMIN_EMAIL,
+    FRONTEND_URL,
+  } = process.env;
+
+  if (!SMTP_HOST || !SMTP_USER || !SMTP_PASS) {
+    console.error("❌ Configuration SMTP manquante", {
+      SMTP_HOST: !!SMTP_HOST,
+      SMTP_USER: !!SMTP_USER,
+      SMTP_PASS: !!SMTP_PASS,
+    });
+    throw new Error("Configuration SMTP invalide");
+  }
+
+  return {
+    host: SMTP_HOST,
+    port: Number(SMTP_PORT || 587),
+    secure: SMTP_SECURE === "true",
+    auth: {
+      user: SMTP_USER,
+      pass: SMTP_PASS,
+    },
+    from: EMAIL_FROM || "Eazy-Visa <noreply@eazy-visa.com>",
+    adminEmail: ADMIN_EMAIL || "admin@eazy-visa.com",
+    frontendUrl: FRONTEND_URL || "http://localhost:3000",
+  };
+}
 
 class EmailService {
-  private transporter: nodemailer.Transporter;
+  private transporter: Transporter | null = null;
 
-  constructor() {
+  /**
+   * Initialisation lazy du transporter
+   */
+  private getTransporter(): Transporter {
+    if (this.transporter) return this.transporter;
+
+    const config = getEmailConfig();
+
     this.transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST,
-      port: parseInt(process.env.SMTP_PORT || '587'),
-      secure: process.env.SMTP_SECURE === 'true',
-      auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASS,
-      },
+      host: config.host,
+      port: config.port,
+      secure: config.secure,
+      auth: config.auth,
     });
 
-    this.verifyConnection();
+    return this.transporter;
   }
 
-  async verifyConnection() {
-    try {
-      await this.transporter.verify();
-      console.log('✅ Service email prêt');
-    } catch (error: any) {
-      console.error('❌ Erreur service email:', error.message);
-    }
-  }
+  /* =========================
+     RENDEZ-VOUS
+     ========================= */
 
   async sendAppointmentConfirmation(appointment: any) {
+    const config = getEmailConfig();
+    const transporter = this.getTransporter();
+
     const mailOptions = {
-      from: process.env.EMAIL_FROM || 'Eazy-Visa <noreply@eazy-visa.com>',
+      from: config.from,
       to: appointment.email,
-      cc: process.env.ADMIN_EMAIL,
-      subject: '✅ Confirmation de rendez-vous - Eazy-Visa',
-      html: `
-        <!DOCTYPE html>
-        <html>
-        <head>
-          <style>
-            body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
-            .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-            .header { background: linear-gradient(135deg, #A11C1C, #D32F2F); color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }
-            .content { background: #f9f9f9; padding: 30px; border-radius: 0 0 10px 10px; }
-            .info-box { background: white; padding: 20px; border-left: 4px solid #A11C1C; margin: 20px 0; border-radius: 5px; }
-            .footer { text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #ddd; color: #666; }
-            .button { display: inline-block; padding: 12px 30px; background: #A11C1C; color: white; text-decoration: none; border-radius: 5px; margin: 20px 0; }
-          </style>
-        </head>
-        <body>
-          <div class="container">
-            <div class="header">
-              <h1>✈️ Eazy-Visa</h1>
-              <p>Votre rendez-vous est confirmé !</p>
-            </div>
-            <div class="content">
-              <p>Bonjour <strong>${appointment.name}</strong>,</p>
-              
-              <p>Nous avons bien reçu votre demande de rendez-vous. Voici les détails :</p>
-              
-              <div class="info-box">
-                <p><strong>📅 Date :</strong> ${new Date(appointment.date).toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>
-                <p><strong>🕐 Heure :</strong> ${appointment.time}</p>
-                <p><strong>📋 Service :</strong> ${this.getServiceName(appointment.service)}</p>
-                ${appointment.message ? `<p><strong>💬 Message :</strong> ${appointment.message}</p>` : ''}
-              </div>
-              
-              <p>Notre équipe vous contactera très prochainement au <strong>${appointment.phone}</strong> pour confirmer votre rendez-vous.</p>
-              
-              <div style="text-align: center;">
-                <a href="${process.env.FRONTEND_URL || 'http://localhost:3000'}" class="button">Visiter notre site</a>
-              </div>
-              
-              <p><strong>Besoin de modifier ou d'annuler ?</strong><br>
-              Contactez-nous au +221 XX XXX XX XX ou par email à contact@eazy-visa.com</p>
-            </div>
-            <div class="footer">
-              <p>Eazy-Visa - Cité Keur Gorgui, Immeuble Keur Mbaye Lô, Villa Nr 12<br>
-              📞 +221 XX XXX XX XX | 📧 contact@eazy-visa.com<br>
-              Service disponible 24/7</p>
-            </div>
-          </div>
-        </body>
-        </html>
-      `,
+      cc: config.adminEmail,
+      subject: "✅ Confirmation de rendez-vous - Eazy-Visa",
+      html: this.renderAppointmentEmail(appointment, config.frontendUrl),
     };
 
-    try {
-      const info = await this.transporter.sendMail(mailOptions);
-      console.log('✅ Email rendez-vous envoyé:', info.messageId);
-      return { success: true, messageId: info.messageId };
-    } catch (error) {
-      console.error('❌ Erreur envoi email rendez-vous:', error);
-      throw error;
-    }
+    const info = await transporter.sendMail(mailOptions);
+    console.log("✅ Email rendez-vous envoyé:", info.messageId);
+
+    return { success: true, messageId: info.messageId };
   }
 
   async notifyAdminNewAppointment(appointment: any) {
-    const mailOptions = {
-      from: process.env.EMAIL_FROM || 'Eazy-Visa <noreply@eazy-visa.com>',
-      to: process.env.ADMIN_EMAIL || 'admin@eazy-visa.com',
+    const config = getEmailConfig();
+    const transporter = this.getTransporter();
+
+    await transporter.sendMail({
+      from: config.from,
+      to: config.adminEmail,
       subject: `🔔 Nouveau rendez-vous - ${appointment.name}`,
       html: `
         <h2>Nouveau rendez-vous</h2>
         <p><strong>Client:</strong> ${appointment.name}</p>
         <p><strong>Email:</strong> ${appointment.email}</p>
         <p><strong>Téléphone:</strong> ${appointment.phone}</p>
-        <p><strong>Date:</strong> ${new Date(appointment.date).toLocaleDateString('fr-FR')} à ${appointment.time}</p>
-        <p><strong>Service:</strong> ${this.getServiceName(appointment.service)}</p>
-        ${appointment.message ? `<p><strong>Message:</strong> ${appointment.message}</p>` : ''}
-        <hr>
-        <p><small>Cet email a été envoyé automatiquement depuis Eazy-Visa Backend</small></p>
+        <p><strong>Date:</strong> ${new Date(
+          appointment.date
+        ).toLocaleDateString("fr-FR")} à ${appointment.time}</p>
+        <p><strong>Service:</strong> ${this.getServiceName(
+          appointment.service
+        )}</p>
+        ${appointment.message ? `<p><strong>Message:</strong> ${appointment.message}</p>` : ""}
       `,
-    };
+    });
 
-    try {
-      await this.transporter.sendMail(mailOptions);
-      console.log('✅ Notification admin envoyée');
-    } catch (error) {
-      console.error('❌ Erreur notification admin:', error);
-    }
+    console.log("✅ Notification admin rendez-vous envoyée");
   }
 
+  /* =========================
+     CONTACT
+     ========================= */
+
   async sendContactConfirmation({ name, email }: any) {
-    const mailOptions = {
-      from: process.env.EMAIL_FROM || 'Eazy-Visa <noreply@eazy-visa.com>',
+    const config = getEmailConfig();
+    const transporter = this.getTransporter();
+
+    await transporter.sendMail({
+      from: config.from,
       to: email,
-      subject: '✅ Nous avons bien reçu votre message - Eazy-Visa',
+      subject: "✅ Nous avons bien reçu votre message - Eazy-Visa",
       html: `
         <h2>Bonjour ${name},</h2>
-        <p>Merci d'avoir pris contact avec nous !</p>
-        <p>Nous avons bien reçu votre message et un membre de notre équipe vous répondra dans les plus brefs délais (généralement sous 24h).</p>
-        <p>À très bientôt !</p>
+        <p>Merci de nous avoir contactés.</p>
+        <p>Notre équipe vous répondra sous 24h.</p>
         <p><strong>L'équipe Eazy-Visa</strong></p>
-        <hr>
-        <small>Cet email est automatique, merci de ne pas y répondre directement.</small>
       `,
-    };
+    });
 
-    try {
-      await this.transporter.sendMail(mailOptions);
-      console.log('✅ Confirmation contact envoyée à:', email);
-    } catch (error) {
-      console.error('❌ Erreur envoi confirmation contact:', error);
-    }
+    console.log("✅ Confirmation contact envoyée:", email);
   }
 
   async notifyAdminContactMessage({ name, email, subject, message }: any) {
-    const mailOptions = {
-      from: process.env.EMAIL_FROM || 'Eazy-Visa <noreply@eazy-visa.com>',
-      to: process.env.ADMIN_EMAIL || 'admin@eazy-visa.com',
-      subject: `📩 Nouveau message de contact - ${subject || 'Sans objet'} - ${name}`,
+    const config = getEmailConfig();
+    const transporter = this.getTransporter();
+
+    await transporter.sendMail({
+      from: config.from,
+      to: config.adminEmail,
+      subject: `📩 Message contact - ${subject || "Sans objet"} - ${name}`,
       html: `
-        <h2>Nouveau message de contact</h2>
+        <h2>Nouveau message</h2>
         <p><strong>Nom:</strong> ${name}</p>
         <p><strong>Email:</strong> ${email}</p>
-        ${subject ? `<p><strong>Sujet:</strong> ${subject}</p>` : ''}
-        <p><strong>Message:</strong></p>
-        <p style="background:#f4f4f4; padding:15px; border-radius:8px;">${message.replace(/\n/g, '<br>')}</p>
-        <hr>
-        <small>Envoyé depuis le formulaire de contact du site Eazy-Visa</small>
+        <p>${message.replace(/\n/g, "<br>")}</p>
       `,
-    };
+    });
 
-    try {
-      await this.transporter.sendMail(mailOptions);
-      console.log('✅ Notification contact envoyée à l\'admin');
-    } catch (error) {
-      console.error('❌ Erreur notification admin contact:', error);
-    }
+    console.log("✅ Notification admin contact envoyée");
   }
+
+  /* =========================
+     RÉSERVATION VOL
+     ========================= */
 
   async sendFlightBookingConfirmation(booking: any) {
-    const mailOptions = {
-      from: process.env.EMAIL_FROM || 'Eazy-Visa <noreply@eazy-visa.com>',
-      to: booking.contacts.email,
-      subject: `✈️ Confirmation de réservation - ${booking.bookingReference}`,
-      html: `
-        <h1>Votre réservation est confirmée!</h1>
-        <p><strong>Référence:</strong> ${booking.bookingReference}</p>
-        <p><strong>Total payé:</strong> ${parseFloat(booking.totalPrice).toLocaleString()} ${booking.currency}</p>
-        <p>Merci de voyager avec Eazy-Visa !</p>
-      `,
-    };
+    const config = getEmailConfig();
+    const transporter = this.getTransporter();
 
-    try {
-      const info = await this.transporter.sendMail(mailOptions);
-      console.log('✅ Email réservation envoyé:', info.messageId);
-      return { success: true, messageId: info.messageId };
-    } catch (error) {
-      console.error('❌ Erreur envoi email réservation:', error);
-      throw error;
-    }
+    const info = await transporter.sendMail({
+      from: config.from,
+      to: booking.contacts.email,
+      subject: `✈️ Confirmation réservation - ${booking.bookingReference}`,
+      html: `
+        <h1>Réservation confirmée ✈️</h1>
+        <p><strong>Référence:</strong> ${booking.bookingReference}</p>
+        <p><strong>Montant:</strong> ${Number(
+          booking.totalPrice
+        ).toLocaleString()} ${booking.currency}</p>
+        <p>Merci de faire confiance à Eazy-Visa.</p>
+      `,
+    });
+
+    console.log("✅ Email réservation envoyé:", info.messageId);
+    return { success: true, messageId: info.messageId };
   }
 
+  /* =========================
+     HELPERS
+     ========================= */
+
   private getServiceName(code: string) {
-    const services: { [key: string]: string } = {
+    const services: Record<string, string> = {
       billet: "Billet d'avion",
       hotel: "Réservation d'hôtel",
       visa: "Demande de visa Allemagne",
@@ -203,6 +192,20 @@ class EmailService {
     };
     return services[code] || code;
   }
+
+  private renderAppointmentEmail(appointment: any, frontendUrl: string) {
+    return `
+      <h1>✈️ Eazy-Visa</h1>
+      <p>Bonjour <strong>${appointment.name}</strong>,</p>
+      <p>Votre rendez-vous est confirmé :</p>
+      <ul>
+        <li>Date : ${new Date(appointment.date).toLocaleDateString("fr-FR")}</li>
+        <li>Heure : ${appointment.time}</li>
+        <li>Service : ${this.getServiceName(appointment.service)}</li>
+      </ul>
+      <a href="${frontendUrl}">Visiter notre site</a>
+    `;
+  }
 }
 
-export default new EmailService();
+export const emailService = new EmailService();

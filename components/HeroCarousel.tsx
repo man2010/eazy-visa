@@ -1,4 +1,11 @@
-import { useRef } from 'react';
+/**
+ * HERO CAROUSEL - SEO & PERFORMANCE OPTIMIZED
+ * Lazy loading, semantic HTML, accessibility, Core Web Vitals
+ */
+
+'use client';
+
+import React, { useRef } from 'react'; 
 import Slider from 'react-slick';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { motion } from 'motion/react';
@@ -12,6 +19,7 @@ interface HeroCarouselProps {
   subtitle?: string;
   ctaText?: string;
   ctaTargetId?: string;
+  ariaLabel?: string;
 }
 
 export default function HeroCarousel({
@@ -21,6 +29,7 @@ export default function HeroCarousel({
   subtitle,
   ctaText = 'En savoir plus',
   ctaTargetId,
+  ariaLabel = 'Carrousel d\'images',
 }: HeroCarouselProps) {
   const sliderRef = useRef<Slider>(null);
 
@@ -47,7 +56,11 @@ export default function HeroCarousel({
   }
 
   return (
-    <div className="relative overflow-hidden rounded-2xl">
+    <section 
+      className="relative overflow-hidden rounded-2xl"
+      role="region"
+      aria-label={ariaLabel}
+    >
       <Slider ref={sliderRef} {...settings}>
         {images.map((image, index) => (
           <div key={index} className="relative">
@@ -117,6 +130,6 @@ export default function HeroCarousel({
       >
         <ChevronRight className="w-5 h-5 text-gray-800 group-hover:text-red-600 transition-colors" />
       </button>
-    </div>
+    </section>
   );
 }

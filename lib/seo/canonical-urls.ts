@@ -1,0 +1,75 @@
+/**
+ * CANONICAL URL MANAGEMENT
+ * Prevent duplicate content issues with proper canonical tags
+ */
+
+const SITE_URL = process.env.NODE_ENV === 'production' 
+  ? 'https://www.eazy-visa.com' 
+  : 'http://localhost:3000';
+
+export const CANONICAL_URLS = {
+  home: `${SITE_URL}/`,
+  billets: `${SITE_URL}/billets`,
+  hotels: `${SITE_URL}/hotels`,
+  services: `${SITE_URL}/services`,
+  visaAllemagne: `${SITE_URL}/voyager-en-allemagne`,
+  aboutUs: `${SITE_URL}/a-propos`,
+  careers: `${SITE_URL}/carrieres`,
+  partnership: `${SITE_URL}/partenariat`,
+  investment: `${SITE_URL}/investissement`,
+  cgu: `${SITE_URL}/cgu`,
+} as const;
+
+/**
+ * Generate canonical URL for a given path
+ */
+export function generateCanonicalUrl(path: string): string {
+  // Remove trailing slashes except for root
+  const cleanPath = path === '/' ? '/' : path.replace(/\/$/, '');
+  return `${SITE_URL}${cleanPath}`;
+}
+
+/**
+ * Get canonical URL from route
+ */
+export function getCanonicalUrl(route: keyof typeof CANONICAL_URLS): string {
+  return CANONICAL_URLS[route];
+}
+
+/**
+ * Validate URL format
+ */
+export function isValidCanonicalUrl(url: string): boolean {
+  try {
+    const urlObj = new URL(url);
+    return urlObj.hostname === 'www.eazy-visa.com' || urlObj.hostname === 'localhost';
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * Get alternate URLs for hreflang tags
+ */
+export const ALTERNATE_URLS = {
+  'fr-SN': SITE_URL,
+  'fr-FR': SITE_URL,
+  'x-default': SITE_URL,
+} as const;
+
+/**
+ * Generate metadata with canonical URL
+ */
+export function generateMetadataWithCanonical(
+  path: string,
+  baseMetadata: Record<string, any>
+) {
+  return {
+    ...baseMetadata,
+    alternates: {
+      canonical: generateCanonicalUrl(path),
+      languages: ALTERNATE_URLS,
+    },
+  };
+}
+

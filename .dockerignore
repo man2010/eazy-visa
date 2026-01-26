@@ -1,0 +1,27 @@
+# Ignorer tout ce qui est inutile pour le build Docker
+.git
+.gitignore
+node_modules
+.npmrc
+Dockerfile
+.dockerignore
+.next
+dist
+build
+coverage
+*.log
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+tmp/
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Spécifique Next.js
+.next/cache
+.next/node_modules   # ← C'est la partie qui cause le crash !
+public/uploads      # Si tu as des uploads lourds, ignore-les

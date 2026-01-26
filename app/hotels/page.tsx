@@ -1,485 +1,95 @@
-// src/pages/HotelsPage.tsx
-'use client';
-import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
-import HeroCarousel from '@/components/HeroCarousel';
-import { 
-  Hotel, 
-  MapPin, 
-  Calendar, 
-  Users, 
-  Star, 
-  Wifi, 
-  Car, 
-  Coffee,
-  Loader2,
-  AlertCircle,
-  Bed,
-  Dumbbell,
-  Waves,
-  Utensils,
-  X,
-  ArrowRight
-} from 'lucide-react';
-import { toast } from 'sonner';
-import { Dialog, DialogContent } from '@/components/ui/dialog'; // Assurez-vous d'avoir ce composant ou importez de shadcn
-import { API_URL } from '@/lib/config';
+/**
+ * PAGE HÔTELS - SERVER COMPONENT (SEO)
+ * Métadonnées ultra-optimisées pour réservation hôtels
+ */
 
-export default function HotelsPage() {
-  const heroImages = [
-    'https://images.unsplash.com/photo-1561501900-3701fa6a0864?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjBob3RlbHxlbnwxfHx8fDE3NjU5MTA2NDd8MA&ixlib=rb-4.1.0&q=80&w=1080',
-    'https://images.unsplash.com/photo-1578894381163-e72c17f2d45f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0cmF2ZWwlMjBwYXNzcG9ydHxlbnwxfHx8fDE3NjU5ODk3OTl8MA&ixlib=rb-4.1.0&q=80&w=1080',
-    'https://images.unsplash.com/photo-1765810655669-dced65717cd5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxidXNpbmVzcyUyMHRyYXZlbCUyMG9mZmljZXxlbnwxfHx8fDE3NjU5ODk4MDF8MA&ixlib=rb-4.1.0&q=80&w=1080',
-  ];
+import type { Metadata } from 'next';
 
-  const [searchData, setSearchData] = useState({
-    city: 'PAR',
-    cityName: 'Paris, France',
-    checkIn: '',
-    checkOut: '',
-    guests: 2,
-  });
+const siteUrl = process.env.NODE_ENV === 'production' 
+  ? 'https://www.eazy-visa.com' 
+  : 'http://localhost:3000';
 
-  const [hotels, setHotels] = useState<any[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [hasSearched, setHasSearched] = useState(false);
+export const metadata: Metadata = {
+  title: 'Réservation Hôtels Pas Cher | 2M+ Hôtels Monde | Meilleur Prix Garanti | Eazy-Visa',
+  description: 'Réservez votre hôtel au meilleur prix garanti. 2 millions d\'hôtels dans 190 pays. Annulation gratuite, avis clients vérifiés, réductions jusqu\'à 50%. Paiement Wave, Orange Money, CB. Service 24/7 depuis Dakar. +221 76 948 60 60',
+  
+  keywords: [
+    // Mots-clés principaux
+    'réservation hôtel en ligne',
+    'hôtels pas cher',
+    'réserver hôtel',
+    'meilleur prix hôtel garanti',
+    
+    // Longue traîne - Général
+    'comparateur hôtels',
+    'booking hôtel',
+    'hôtel dernière minute',
+    'promotion hôtel',
+    'offre hôtel',
+    'tarif hôtel',
+    
+    // Longue traîne - Sénégal/Afrique
+    'réservation hôtel Dakar',
+    'hôtels Dakar pas cher',
+    'réserver hôtel Sénégal',
+    'hôtels Saly Sénégal',
+    'hôtels Cap Skirring',
+    'agence réservation hôtel Dakar',
+    
+    // Longue traîne - International
+    'réservation hôtel Paris',
+    'hôtels Paris pas cher',
+    'hôtel New York',
+    'hôtel Dubaï',
+    'hôtel Londres',
+    'hôtel Rome',
+    'hôtel Barcelone',
+    
+    // Types d'hôtels
+    'hôtel luxe',
+    'hôtel 5 étoiles',
+    'hôtel budget',
+    'hôtel économique',
+    'hôtel boutique',
+    'resort hôtel',
+    
+    // Services
+    'annulation gratuite hôtel',
+    'hôtel avec piscine',
+    'hôtel wifi gratuit',
+    'hôtel parking gratuit',
+    'hôtel petit déjeuner inclus',
+    'hôtel spa',
+    
+    // Marque
+    'Eazy-Visa hôtels',
+    'réservation hôtel Eazy-Visa',
+  ],
+  
+  alternates: {
+    canonical: `${siteUrl}/hotels`,
+  },
+  
+  openGraph: {
+    type: 'website',
+    url: `${siteUrl}/hotels`,
+    title: 'Réservation Hôtels | 2M+ Hôtels | Meilleur Prix Garanti | Eazy-Visa',
+    description: 'Réservez parmi 2 millions d\'hôtels dans 190 pays. Annulation gratuite, réductions jusqu\'à 50%. Paiement flexible Wave/Orange Money/CB.',
+    images: [{
+      url: `${siteUrl}/hotels-og.jpg`,
+      width: 1200,
+      height: 630,
+      alt: 'Réservation Hôtels en ligne - Eazy-Visa',
+    }],
+  },
 
-  const [filters, setFilters] = useState({
-    maxPrice: 500000,
-    minRating: 0,
-    amenities: [] as string[],
-  });
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Réservation Hôtels | 2M+ Hôtels Monde | Eazy-Visa',
+    description: 'Meilleur prix garanti. Annulation gratuite. Réductions -50%. Paiement Wave/Orange Money.',
+    images: [`${siteUrl}/hotels-og.jpg`],
+  },
+};
 
-  const [selectedHotel, setSelectedHotel] = useState<any | null>(null);
-
-  const getDefaultDates = () => {
-    const today = new Date();
-    const checkIn = new Date(today);
-    checkIn.setDate(today.getDate() + 7);
-    const checkOut = new Date(checkIn);
-    checkOut.setDate(checkIn.getDate() + 3);
-
-    setSearchData(prev => ({
-      ...prev,
-      checkIn: checkIn.toISOString().split('T')[0],
-      checkOut: checkOut.toISOString().split('T')[0],
-    }));
-  };
-
-  useEffect(() => {
-    getDefaultDates();
-  }, []);
-
-  const handleSearch = async () => {
-    if (!searchData.city || !searchData.checkIn || !searchData.checkOut) {
-      toast.error('Veuillez remplir tous les champs');
-      return;
-    }
-
-    setLoading(true);
-    setError(null);
-    setHasSearched(true);
-
-    try {
-      const cityRes = await fetch(`${API_URL}/hotels/search?cityCode=${searchData.city}`);
-      const cityData = await cityRes.json();
-
-      if (!cityData.success || cityData.data.length === 0) {
-        setError('Aucun hôtel trouvé dans cette ville');
-        setHotels([]);
-        setLoading(false);
-        return;
-      }
-
-      const hotelIds = cityData.data.slice(0, 20).map((h: any) => h.hotelId);
-
-      const offersRes = await fetch(`${API_URL}/hotels/offers`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          hotelIds,
-          checkInDate: searchData.checkIn,
-          checkOutDate: searchData.checkOut,
-          adults: searchData.guests,
-        }),
-      });
-
-      const offersData = await offersRes.json();
-
-      if (offersData.success && offersData.data.length > 0) {
-        const hotelsWithImages = offersData.data.map((h: any) => ({
-          ...h,
-          image: `https://source.unsplash.com/featured/?hotel,${encodeURIComponent(h.hotel.name)}` // Image dynamique via Unsplash
-        }));
-        setHotels(hotelsWithImages);
-        toast.success(`${offersData.data.length} hôtel(s) trouvé(s) !`);
-      } else {
-        setError('Aucune offre disponible pour ces dates');
-        setHotels([]);
-      }
-    } catch (err: any) {
-      setError('Erreur de connexion au serveur');
-      toast.error('Erreur lors de la recherche');
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const filteredHotels = hotels.filter(hotel => {
-    const price = parseFloat(hotel.offers[0]?.price?.total || '0');
-    const rating = parseFloat(hotel.hotel?.rating || '0');
-
-    if (price > filters.maxPrice) return false;
-    if (rating < filters.minRating) return false;
-
-    if (filters.amenities.length > 0) {
-      const hotelAmenities = hotel.hotel?.amenities || [];
-      return filters.amenities.every(a => hotelAmenities.includes(a));
-    }
-
-    return true;
-  });
-
-  const getAmenityIcon = (amenity: string) => {
-    const map: Record<string, any> = {
-      WIFI: Wifi,
-      PARKING: Car,
-      RESTAURANT: Utensils,
-      SWIMMING_POOL: Waves,
-      GYM: Dumbbell,
-      SPA: Coffee,
-      ROOM_SERVICE: Bed,
-    };
-    return map[amenity] || Hotel;
-  };
-
-  const handleSelectOffer = (hotel: any) => {
-    setSelectedHotel(hotel);
-  };
-
-  const CFA_CONVERSION = {
-    'EUR': 655.957,
-    'USD': 700, // Approx on 2025, adjust if needed
-  };
-
-  const formatPrice = (price: number, currency: string) => {
-    let converted = price;
-    if (currency !== 'XOF' && CFA_CONVERSION[currency as keyof typeof CFA_CONVERSION]) {
-      converted *= CFA_CONVERSION[currency as keyof typeof CFA_CONVERSION];
-    }
-    return converted.toLocaleString('fr-FR', { maximumFractionDigits: 0 }) + ' FCFA';
-  };
-
-  return (
-    <div className="min-h-screen pt-24 pb-16 bg-gray-50">
-      <HeroCarousel
-        images={heroImages}
-        height="h-[634px]"
-        title="Hôtels d'exception — confort, emplacement, valeur."
-        subtitle="Comparez les meilleurs hôtels en temps réel. Réservation simple, paiement flexible."
-        ctaText="Trouver un hôtel"
-        ctaTargetId="search-section"
-      />
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-20 relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          id="search-section"
-          className="bg-white rounded-2xl shadow-2xl p-6 lg:p-8 mb-12"
-        >
-          <h2 className="text-2xl font-bold mb-6 text-center">Trouvez votre hôtel idéal</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div>
-              <label className="block text-sm font-medium mb-2">Destination</label>
-              <div className="relative">
-                <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-                <input
-                  type="text"
-                  value={searchData.cityName}
-                  onChange={(e) => {
-                    // Simple mapping exemple, extend for more cities
-                    const codeMap: Record<string, string> = {
-                      'Paris, France': 'PAR',
-                      'Dakar, Sénégal': 'DKR',
-                      'New York, USA': 'NYC',
-                    };
-                    const newCity = e.target.value;
-                    setSearchData({ ...searchData, cityName: newCity, city: codeMap[newCity] || 'PAR' });
-                  }}
-                  placeholder="ex: Paris, France (PAR)"
-                  className="w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#A11C1C]"
-                />
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium mb-2">Arrivée</label>
-              <div className="relative">
-                <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-                <input
-                  type="date"
-                  value={searchData.checkIn}
-                  onChange={(e) => setSearchData({ ...searchData, checkIn: e.target.value })}
-                  className="w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#A11C1C]"
-                />
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium mb-2">Départ</label>
-              <div className="relative">
-                <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-                <input
-                  type="date"
-                  value={searchData.checkOut}
-                  onChange={(e) => setSearchData({ ...searchData, checkOut: e.target.value })}
-                  className="w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#A11C1C]"
-                />
-              </div>
-            </div>
-
-            <div className="flex flex-col justify-end gap-2">
-              <label className="block text-sm font-medium">Voyageurs</label>
-              <div className="relative">
-                <Users className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-                <select
-                  value={searchData.guests}
-                  onChange={(e) => setSearchData({ ...searchData, guests: parseInt(e.target.value) })}
-                  className="w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#A11C1C]"
-                >
-                  {[1,2,3,4,5,6].map(n => (
-                    <option key={n} value={n}>{n} adulte{n > 1 ? 's' : ''}</option>
-                  ))}
-                </select>
-              </div>
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={handleSearch}
-                disabled={loading}
-                className="mt-4 py-3 bg-[#A11C1C] text-white font-bold rounded-lg shadow-lg disabled:opacity-70"
-              >
-                {loading ? 'Recherche...' : 'Rechercher'}
-              </motion.button>
-            </div>
-          </div>
-        </motion.div>
-
-        {hasSearched && (
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-            <div className="lg:col-span-1">
-              <div className="bg-white rounded-2xl shadow-xl p-6 sticky top-28">
-                <h3 className="text-xl font-bold mb-6">Filtres</h3>
-                <div className="space-y-6">
-                  <div>
-                    <label className="block text-sm font-medium mb-2">
-                      Prix max/nuit : {filters.maxPrice.toLocaleString()} FCFA
-                    </label>
-                    <input
-                      type="range"
-                      min="50000"
-                      max="500000"
-                      step="25000"
-                      value={filters.maxPrice}
-                      onChange={(e) => setFilters({ ...filters, maxPrice: parseInt(e.target.value) })}
-                      className="w-full accent-[#A11C1C]"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium mb-2">Étoiles minimum</label>
-                    <select
-                      value={filters.minRating}
-                      onChange={(e) => setFilters({ ...filters, minRating: parseInt(e.target.value) })}
-                      className="w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-[#A11C1C]"
-                    >
-                      <option value="0">Toutes</option>
-                      <option value="3">3+ étoiles</option>
-                      <option value="4">4+ étoiles</option>
-                      <option value="5">5 étoiles</option>
-                    </select>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium mb-2">Commodités</label>
-                    <div className="space-y-2">
-                      {['WIFI', 'PARKING', 'RESTAURANT', 'SWIMMING_POOL', 'GYM', 'SPA'].map(a => (
-                        <label key={a} className="flex items-center gap-2 text-sm">
-                          <input
-                            type="checkbox"
-                            checked={filters.amenities.includes(a)}
-                            onChange={(e) => {
-                              const newAmenities = e.target.checked
-                                ? [...filters.amenities, a]
-                                : filters.amenities.filter(am => am !== a);
-                              setFilters({ ...filters, amenities: newAmenities });
-                            }}
-                            className="accent-[#A11C1C]"
-                          />
-                          {a.replace(/_/g, ' ')}
-                        </label>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="lg:col-span-3">
-              {loading ? (
-                <div className="flex flex-col items-center justify-center py-32">
-                  <Loader2 className="w-20 h-20 text-[#A11C1C] animate-spin mb-6" />
-                  <p className="text-2xl font-bold">Recherche des hôtels...</p>
-                </div>
-              ) : error ? (
-                <div className="bg-red-50 rounded-2xl p-12 text-center">
-                  <AlertCircle className="w-20 h-20 text-red-600 mx-auto mb-6" />
-                  <p className="text-xl text-red-800">{error}</p>
-                </div>
-              ) : filteredHotels.length > 0 ? (
-                <>
-                  <p className="text-lg text-gray-600 mb-8">
-                    <span className="font-bold text-2xl text-gray-900">{filteredHotels.length}</span> hôtel{filteredHotels.length > 1 ? 's' : ''} disponible{filteredHotels.length > 1 ? 's' : ''}
-                  </p>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-8">
-                    {filteredHotels.map((hotelOffer, index) => {
-                      const hotel = hotelOffer.hotel;
-                      const offer = hotelOffer.offers[0];
-                      const price = parseFloat(offer.price.total);
-                      const currency = offer.price.currency;
-                      const formattedPrice = formatPrice(price, currency);
-
-                      return (
-                        <motion.div
-                          key={hotel.hotelId}
-                          initial={{ opacity: 0, y: 30 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ delay: index * 0.1 }}
-                          whileHover={{ y: -10 }}
-                          className="bg-white rounded-2xl shadow-xl overflow-hidden flex flex-col lg:flex-row"
-                        >
-                          <div className="lg:w-96 h-64 lg:h-auto relative">
-                            <img
-                              src={hotelOffer.image || 'https://source.unsplash.com/featured/?hotel,luxury'}
-                              alt={hotel.name}
-                              className="w-full h-full object-cover"
-                              onError={(e) => {
-                                e.currentTarget.src = 'https://source.unsplash.com/featured/?hotel';
-                              }}
-                            />
-                            <div className="absolute top-4 right-4 bg-white px-3 py-1 rounded-full shadow-lg flex items-center gap-1">
-                              <Star className="w-5 h-5 fill-yellow-400 text-yellow-400" />
-                              {hotel.rating || 'N/A'}
-                            </div>
-                          </div>
-
-                          <div className="flex-1 p-6 lg:p-8 flex flex-col">
-                            <h3 className="text-2xl font-bold mb-2">{hotel.name}</h3>
-                            <div className="flex items-center text-gray-600 mb-4">
-                              <MapPin className="w-5 h-5 mr-2" />
-                              <span>{hotel.address?.lines?.[0] || 'Centre-ville'}</span>
-                            </div>
-
-                            <div className="flex flex-wrap gap-3 mb-6">
-                              {(hotel.amenities || []).slice(0, 5).map((a: string) => {
-                                const Icon = getAmenityIcon(a);
-                                return (
-                                  <span key={a} className="px-4 py-2 bg-gray-100 rounded-full text-sm flex items-center gap-2">
-                                    <Icon className="w-4 h-4" />
-                                    {a.replace(/_/g, ' ')}
-                                  </span>
-                                );
-                              })}
-                            </div>
-
-                            <div className="flex items-end justify-between mt-auto">
-                              <div>
-                                <p className="text-sm text-gray-600">Prix total séjour</p>
-                                <p className="text-4xl font-bold text-[#A11C1C]">
-                                  {formattedPrice}
-                                </p>
-                                <p className="text-sm text-gray-500">pour {searchData.guests} adulte{searchData.guests > 1 ? 's' : ''}</p>
-                              </div>
-
-                              <motion.button
-                                whileHover={{ scale: 1.05 }}
-                                whileTap={{ scale: 0.95 }}
-                                onClick={() => handleSelectOffer(hotelOffer)}
-                                className="px-8 py-4 bg-[#A11C1C] text-white rounded-xl font-bold shadow-lg hover:shadow-xl flex items-center gap-3"
-                              >
-                                Voir l'offre
-                                <ArrowRight className="w-6 h-6" />
-                              </motion.button>
-                            </div>
-                          </div>
-                        </motion.div>
-                      );
-                    })}
-                  </div>
-                </>
-              ) : (
-                <div className="bg-gray-100 rounded-2xl p-16 text-center">
-                  <AlertCircle className="w-20 h-20 text-gray-400 mx-auto mb-6" />
-                  <p className="text-xl text-gray-700">Aucun hôtel ne correspond à vos critères</p>
-                </div>
-              )}
-            </div>
-          </div>
-        )}
-      </div>
-
-      {/* Modal d'offre */}
-      <Dialog open={!!selectedHotel} onOpenChange={() => setSelectedHotel(null)}>
-        <DialogContent className="max-w-4xl max-h-[95vh] p-0 overflow-hidden rounded-2xl">
-          {selectedHotel && (
-            <div className="flex flex-col h-full">
-              <div className="p-6 bg-gradient-to-r from-[#A11C1C] to-red-700 text-white flex-shrink-0">
-                <div className="flex items-center justify-between">
-                  <h2 className="text-3xl font-bold">{selectedHotel.hotel.name}</h2>
-                  <button onClick={() => setSelectedHotel(null)} className="p-2 hover:bg-white/20 rounded-full">
-                    <X className="w-7 h-7" />
-                  </button>
-                </div>
-                <p className="text-lg opacity-90 mt-2">{selectedHotel.hotel.address?.lines?.join(', ') || 'Centre-ville'}</p>
-              </div>
-
-              <div className="flex-1 overflow-y-auto p-6 lg:p-8 bg-gray-50">
-                <h3 className="text-2xl font-bold mb-6">Offres disponibles</h3>
-                <div className="space-y-6">
-                  {selectedHotel.offers.map((offer: any, i: number) => {
-                    const price = parseFloat(offer.price.total);
-                    const currency = offer.price.currency;
-                    const formattedPrice = formatPrice(price, currency);
-
-                    return (
-                      <div key={i} className="bg-white rounded-2xl p-6 shadow-xl">
-                        <h4 className="text-xl font-bold mb-4">Chambre {i + 1} - {offer.room?.typeEstimated?.category || 'Standard'}</h4>
-                        <p className="text-gray-600 mb-4">{offer.room?.description?.text || 'Description non disponible'}</p>
-                        <div className="flex items-center justify-between">
-                          <div>
-                            <p className="text-sm text-gray-600">Prix total</p>
-                            <p className="text-3xl font-bold text-[#A11C1C]">{formattedPrice}</p>
-                          </div>
-                          <motion.button
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                            className="px-8 py-4 bg-[#A11C1C] text-white rounded-xl font-bold shadow-lg hover:shadow-xl"
-                          >
-                            Réserver cette offre
-                          </motion.button>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            </div>
-          )}
-        </DialogContent>
-      </Dialog>
-    </div>
-  );
-}
+// Importer le composant client
+export { default } from './HotelsClient';

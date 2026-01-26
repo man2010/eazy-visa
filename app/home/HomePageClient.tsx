@@ -50,9 +50,9 @@ export default function HomePage() {
   } | null>(null);
 
   const heroImages = [
-    'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxhaXJwbGFuZSUyMHRyYXZlbHxlbnwxfHx8fDE3NjU4Njc3NjR8MA&ixlib=rb-4.1.0&q=80&w=1080',
-    'https://images.unsplash.com/photo-1578894381163-e72c17f2d45f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0cmF2ZWwlMjBwYXNzcG9ydHxlbnwxfHx8fDE3NjU5ODk3OTl8MA&ixlib=rb-4.1.0&q=80&w=1080',
-    'https://images.unsplash.com/photo-1528728329032-2972f65dfb3f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxnZXJtYW55JTIwYmVybGlufGVufDF8fHx8MTc2NTk4NjQ3NHww&ixlib=rb-4.1.0&q=80&w=1080',
+    '/image4.jpg',
+    '/image5.webp',
+    '/image2.jpg',
   ];
 
   const stats = [
@@ -209,7 +209,7 @@ export default function HomePage() {
   return (
     <div className="min-h-screen">
       {/* Hero Section with Carousel */}
-      <section className="relative pt-24 pb-12">
+      <section className="relative pt-20 pb-12">
         <div className="w-full px-0">
           <HeroCarousel
             images={heroImages}

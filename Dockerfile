@@ -1,36 +1,40 @@
-# Étape 1 : Builder (on installe et on build)
-FROM node:20-alpine AS builder
+# Dockerfile
+FROM node:18-alpine AS base
 
+# Dependencies
+FROM base AS deps
+RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
-# Copie package.json + lock d'abord → cache intelligent
 COPY package*.json ./
 RUN npm ci
 
-# Copie tout le reste
+# Builder
+FROM base AS builder
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-# Build Next.js
 RUN npm run build
 
-# Étape 2 : Image finale (très légère)
-FROM node:20-alpine AS runner
-
+# Runner
+FROM base AS runner
 WORKDIR /app
 
-# On copie seulement ce qui est nécessaire
-COPY --from=builder /app/next.config.* ./
-COPY --from=builder /app/public ./public
-COPY --from=builder /app/.next ./.next
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/package.json ./package.json
-
-# Variable d'environnement par défaut (sera surchargée par EB)
 ENV NODE_ENV=production
-ENV PORT=3000
 
-# Expose le port (EB l'utilise)
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nextjs
+
+COPY --from=builder /app/public ./public
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+
+USER nextjs
+
 EXPOSE 3000
 
-# Lance l'application
-CMD ["npm", "start"]
+ENV PORT=3000
+ENV HOSTNAME="0.0.0.0"
+
+CMD ["node", "server.js"]

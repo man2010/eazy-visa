@@ -35,9 +35,9 @@ export default function ServicesClient() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const heroImages = [
+    '/EVServices3.jpg',
+    '/EVServices1.png',
     '/image5.webp',
-    '/billeterie.webp',
-    '/visa.avif'
   ];
 
   const services = [

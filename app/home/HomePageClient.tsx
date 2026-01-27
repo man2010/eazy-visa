@@ -50,9 +50,9 @@ export default function HomePage() {
   } | null>(null);
 
   const heroImages = [
+    '/image2.jpg',
     '/image4.jpg',
     '/image5.webp',
-    '/image2.jpg',
   ];
 
   const stats = [

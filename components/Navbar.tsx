@@ -16,7 +16,7 @@ const NAV_LINKS = [
   { to: '/services', label: 'Services' },
   { to: '/billets', label: 'Billets d\'avion' },
   { to: '/hotels', label: 'Hôtels' },
-  { to: '/voyager-en-allemagne', label: 'Voyager en Allemagne' },
+  { to: '/voyager-en-allemagne', label: 'Procedure en Allemagne' },
   { to: '/destinations', label: 'Destinations' },
 ];
 
@@ -59,7 +59,7 @@ export default function Navbar() {
           isScrolled ? 'bg-white/95 backdrop-blur-md shadow-lg' : 'bg-white'
         }`}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="w-full mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-20">
             {/* Logo */}
             <Link href="/" className="flex items-center" aria-label="Eazy-Visa - Accueil">

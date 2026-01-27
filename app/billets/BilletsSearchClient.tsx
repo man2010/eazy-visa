@@ -25,9 +25,9 @@ import { API_URL } from '@/lib/config';
 
 export default function BilletsSearchClient() {
   const heroImages = [
-    'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?ixlib=rb-4.1.0&q=80&w=1080',
-    'https://images.unsplash.com/photo-1578894381163-e72c17f2d45f?ixlib=rb-4.1.0&q=80&w=1080',
-    'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?ixlib=rb-4.1.0&q=80&w=1080',
+    'EVBilleterie.jpg',
+    'EVServices1.png',
+    'EVBilleterie1.png',
   ];
 
   const [searchData, setSearchData] = useState({

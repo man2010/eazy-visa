@@ -33,9 +33,10 @@ import { API_URL } from '@/lib/config';
 
 function HotelsPageContent() {
   const heroImages = [
+    '/EVHotels1.jpg',
+    '/EVHotels3.jpg',
+    '/EVHotels4.jpg',
     'https://images.unsplash.com/photo-1561501900-3701fa6a0864?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjBob3RlbHxlbnwxfHx8fDE3NjU5MTA2NDd8MA&ixlib=rb-4.1.0&q=80&w=1080',
-    'https://images.unsplash.com/photo-1578894381163-e72c17f2d45f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0cmF2ZWwlMjBwYXNzcG9ydHxlbnwxfHx8fDE3NjU5ODk3OTl8MA&ixlib=rb-4.1.0&q=80&w=1080',
-    'https://images.unsplash.com/photo-1765810655669-dced65717cd5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxidXNpbmVzcyUyMHRyYXZlbCUyMG9mZmljZXxlbnwxfHx8fDE3NjU5ODk4MDF8MA&ixlib=rb-4.1.0&q=80&w=1080',
   ];
 
   const [searchData, setSearchData] = useState({

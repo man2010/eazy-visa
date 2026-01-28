@@ -3,7 +3,7 @@
 import axios from "axios";
 
 /**
- * Lecture des variables d’environnement AU RUNTIME
+ * Lecture des variables d'environnement AU RUNTIME
  */
 function getAmadeusConfig() {
   const {
@@ -26,7 +26,7 @@ function getAmadeusConfig() {
     clientId: AMADEUS_CLIENT_ID,
     clientSecret: AMADEUS_CLIENT_SECRET,
     defaults: {
-      currencyCode: "EUR",
+      currencyCode: "XOF", // ✅ CHANGÉ : EUR → XOF pour l'Afrique de l'Ouest
       maxResults: 20,
       timeout: 15000,
     },
@@ -48,15 +48,18 @@ class AmadeusService {
   private tokenExpiry: number | null = null;
 
   private isTokenValid(): boolean {
+    // ✅ AJOUT : Marge de sécurité de 5 minutes
+    const MARGIN_MS = 5 * 60 * 1000;
     return (
       this.accessToken !== null &&
       this.tokenExpiry !== null &&
-      Date.now() < this.tokenExpiry
+      Date.now() < (this.tokenExpiry - MARGIN_MS)
     );
   }
 
   async getAccessToken(): Promise<string> {
     if (this.isTokenValid()) {
+      console.log("🔄 Utilisation du token en cache");
       return this.accessToken!;
     }
 
@@ -76,20 +79,24 @@ class AmadeusService {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
           },
+          timeout: 10000, // ✅ AJOUT : Timeout pour l'auth
         }
       );
 
       this.accessToken = response.data.access_token;
       this.tokenExpiry = Date.now() + response.data.expires_in * 1000;
 
-      console.log("✅ Token Amadeus obtenu");
+      console.log("✅ Token Amadeus obtenu, expire dans", response.data.expires_in, "s");
       return this.accessToken!;
     } catch (error: any) {
       console.error(
         "❌ Erreur authentification Amadeus:",
         error.response?.data || error.message
       );
-      throw new Error("Échec de l'authentification Amadeus");
+      // ✅ AMÉLIORATION : Plus de détails dans l'erreur
+      throw new Error(
+        `Échec auth Amadeus: ${error.response?.data?.error_description || error.message}`
+      );
     }
   }
 
@@ -98,23 +105,25 @@ class AmadeusService {
      ========================= */
 
   async searchFlights(searchParams: any) {
-    const config = getAmadeusConfig();
-    const token = await this.getAccessToken();
-
-    const params: any = {
-      originLocationCode: searchParams.origin,
-      destinationLocationCode: searchParams.destination,
-      departureDate: searchParams.departureDate,
-      adults: searchParams.adults || 1,
-      currencyCode: config.defaults.currencyCode,
-      max: searchParams.max || config.defaults.maxResults,
-    };
-
-    if (searchParams.returnDate) {
-      params.returnDate = searchParams.returnDate;
-    }
-
     try {
+      const config = getAmadeusConfig();
+      const token = await this.getAccessToken();
+
+      const params: any = {
+        originLocationCode: searchParams.origin,
+        destinationLocationCode: searchParams.destination,
+        departureDate: searchParams.departureDate,
+        adults: searchParams.adults || 1,
+        currencyCode: searchParams.currencyCode || config.defaults.currencyCode,
+        max: searchParams.max || config.defaults.maxResults,
+      };
+
+      if (searchParams.returnDate) {
+        params.returnDate = searchParams.returnDate;
+      }
+
+      console.log("🔍 Recherche vols avec params:", params);
+
       const response = await axios.get(
         `${config.apiUrl}${config.endpoints.flightOffers}`,
         {
@@ -124,29 +133,33 @@ class AmadeusService {
         }
       );
 
-      console.log(`✅ ${response.data.data.length} vols trouvés`);
+      console.log(`✅ ${response.data.data?.length || 0} vols trouvés`);
       return {
         success: true,
-        data: response.data.data,
+        data: response.data.data || [],
         meta: response.data.meta,
+        dictionaries: response.data.dictionaries, // ✅ AJOUT : dictionnaires
       };
     } catch (error: any) {
       console.error(
         "❌ Erreur recherche vols:",
         error.response?.data || error.message
       );
-      throw new Error(
-        error.response?.data?.errors?.[0]?.detail ||
-          "Erreur recherche vols"
-      );
+      
+      // ✅ AMÉLIORATION : Retourner structure cohérente même en cas d'erreur
+      return {
+        success: false,
+        error: error.response?.data?.errors?.[0]?.detail || error.message || "Erreur recherche vols",
+        data: [],
+      };
     }
   }
 
   async confirmPrice(flightOffer: any) {
-    const config = getAmadeusConfig();
-    const token = await this.getAccessToken();
-
     try {
+      const config = getAmadeusConfig();
+      const token = await this.getAccessToken();
+
       const response = await axios.post(
         `${config.apiUrl}${config.endpoints.flightPricing}`,
         {
@@ -171,15 +184,18 @@ class AmadeusService {
         "❌ Erreur confirmation prix:",
         error.response?.data || error.message
       );
-      throw new Error("Erreur confirmation prix");
+      return {
+        success: false,
+        error: error.response?.data?.errors?.[0]?.detail || "Erreur confirmation prix",
+      };
     }
   }
 
   async createBooking(flightOffer: any, travelers: any, contacts: any) {
-    const config = getAmadeusConfig();
-    const token = await this.getAccessToken();
-
     try {
+      const config = getAmadeusConfig();
+      const token = await this.getAccessToken();
+
       const response = await axios.post(
         `${config.apiUrl}${config.endpoints.flightBooking}`,
         {
@@ -188,6 +204,18 @@ class AmadeusService {
             flightOffers: [flightOffer],
             travelers,
             contacts,
+            remarks: {
+              general: [
+                {
+                  subType: "GENERAL_MISCELLANEOUS",
+                  text: "ONLINE BOOKING FROM EAZY-VISA",
+                },
+              ],
+            },
+            ticketingAgreement: {
+              option: "DELAY_TO_CANCEL",
+              delay: "6D",
+            },
           },
         },
         {
@@ -206,7 +234,10 @@ class AmadeusService {
         "❌ Erreur création réservation:",
         error.response?.data || error.message
       );
-      throw new Error("Erreur création réservation");
+      return {
+        success: false,
+        error: error.response?.data?.errors?.[0]?.detail || "Erreur création réservation",
+      };
     }
   }
 
@@ -215,52 +246,94 @@ class AmadeusService {
      ========================= */
 
   async getSeatmaps(flightOffers: any) {
-    const config = getAmadeusConfig();
-    const token = await this.getAccessToken();
+    try {
+      const config = getAmadeusConfig();
+      const token = await this.getAccessToken();
 
-    const response = await axios.post(
-      `${config.apiUrl}${config.endpoints.seatmaps}`,
-      { data: flightOffers },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      }
-    );
+      const response = await axios.post(
+        `${config.apiUrl}${config.endpoints.seatmaps}`,
+        { data: flightOffers },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          timeout: config.defaults.timeout,
+        }
+      );
 
-    return { success: true, data: response.data.data };
+      return { success: true, data: response.data.data || [] };
+    } catch (error: any) {
+      console.error("❌ Erreur seatmaps:", error.response?.data || error.message);
+      return {
+        success: false,
+        error: error.response?.data?.errors?.[0]?.detail || "Erreur seatmaps",
+        data: [],
+      };
+    }
   }
 
   async searchLocations({ keyword, subType }: any) {
-    const config = getAmadeusConfig();
-    const token = await this.getAccessToken();
+    try {
+      const config = getAmadeusConfig();
+      const token = await this.getAccessToken();
 
-    const response = await axios.get(
-      `${config.apiUrl}${config.endpoints.locations}`,
-      {
-        headers: { Authorization: `Bearer ${token}` },
-        params: { keyword, subType, page: { limit: 10 } },
-      }
-    );
+      const response = await axios.get(
+        `${config.apiUrl}${config.endpoints.locations}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+          params: { 
+            keyword, 
+            subType: subType || "AIRPORT,CITY",
+            "page[limit]": 10,
+          },
+          timeout: config.defaults.timeout,
+        }
+      );
 
-    return { success: true, data: response.data.data || [] };
+      return { success: true, data: response.data.data || [] };
+    } catch (error: any) {
+      console.error("❌ Erreur locations:", error.response?.data || error.message);
+      return {
+        success: false,
+        error: error.response?.data?.errors?.[0]?.detail || "Erreur recherche locations",
+        data: [],
+      };
+    }
   }
 
   async searchHotelsByCity({ cityCode, ratings, amenities }: any) {
-    const config = getAmadeusConfig();
-    const token = await this.getAccessToken();
+    try {
+      const config = getAmadeusConfig();
+      const token = await this.getAccessToken();
 
-    let url = `${config.apiUrl}${config.endpoints.hotelsByCity}?cityCode=${cityCode}&radius=50&radiusUnit=KM`;
-    if (ratings) url += `&ratings=${ratings.join(",")}`;
-    if (amenities) url += `&amenities=${amenities.join(",")}`;
+      const params: any = {
+        cityCode,
+        radius: 50,
+        radiusUnit: "KM",
+      };
 
-    const response = await axios.get(url, {
-      headers: { Authorization: `Bearer ${token}` },
-      timeout: config.defaults.timeout,
-    });
+      if (ratings) params.ratings = ratings.join(",");
+      if (amenities) params.amenities = amenities.join(",");
 
-    return { success: true, data: response.data.data || [] };
+      const response = await axios.get(
+        `${config.apiUrl}${config.endpoints.hotelsByCity}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+          params,
+          timeout: config.defaults.timeout,
+        }
+      );
+
+      return { success: true, data: response.data.data || [] };
+    } catch (error: any) {
+      console.error("❌ Erreur hôtels:", error.response?.data || error.message);
+      return {
+        success: false,
+        error: error.response?.data?.errors?.[0]?.detail || "Erreur recherche hôtels",
+        data: [],
+      };
+    }
   }
 
   async getHotelOffers({
@@ -269,26 +342,35 @@ class AmadeusService {
     checkOutDate,
     adults = 1,
   }: any) {
-    const config = getAmadeusConfig();
-    const token = await this.getAccessToken();
+    try {
+      const config = getAmadeusConfig();
+      const token = await this.getAccessToken();
 
-    const response = await axios.get(
-      `${config.apiUrl}${config.endpoints.hotelOffers}`,
-      {
-        headers: { Authorization: `Bearer ${token}` },
-        params: {
-          hotelIds: hotelIds.join(","),
-          checkInDate,
-          checkOutDate,
-          adults,
-          currency: config.defaults.currencyCode,
-          bestRateOnly: true,
-        },
-        timeout: config.defaults.timeout,
-      }
-    );
+      const response = await axios.get(
+        `${config.apiUrl}${config.endpoints.hotelOffers}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+          params: {
+            hotelIds: Array.isArray(hotelIds) ? hotelIds.join(",") : hotelIds,
+            checkInDate,
+            checkOutDate,
+            adults,
+            currency: config.defaults.currencyCode,
+            bestRateOnly: true,
+          },
+          timeout: config.defaults.timeout,
+        }
+      );
 
-    return { success: true, data: response.data.data || [] };
+      return { success: true, data: response.data.data || [] };
+    } catch (error: any) {
+      console.error("❌ Erreur offres hôtels:", error.response?.data || error.message);
+      return {
+        success: false,
+        error: error.response?.data?.errors?.[0]?.detail || "Erreur offres hôtels",
+        data: [],
+      };
+    }
   }
 }
 

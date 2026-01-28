@@ -1,3 +1,4 @@
+// next.config.js (à la racine du projet)
 const withPWA = require('next-pwa')({
   dest: 'public',
   register: true,
@@ -17,13 +18,14 @@ const withPWA = require('next-pwa')({
   ],
 });
 
-module.exports = withPWA({
-  output: 'standalone',
-  experimental: {
-    serverComponentsExternalPackages: ['mongoose', 'canvas', 'jsdom'],  // Remplacé serverExternalPackages par la bonne option
-  },
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  output: 'standalone', // Important pour Amplify/SSR Lambdas
 
-  // ✅ CRITIQUE : Inline les variables pour le serveur au build (disponibles au runtime)
+  // ✅ Packages externes (mongoose, canvas, jsdom) – clé corrigée pour Next 16+
+  serverExternalPackages: ['mongoose', 'canvas', 'jsdom'],
+
+  // Variables d'environnement inlinées pour le serveur (SSR/Lambda)
   env: {
     AMADEUS_API_URL: process.env.AMADEUS_API_URL,
     AMADEUS_CLIENT_ID: process.env.AMADEUS_CLIENT_ID,
@@ -40,5 +42,9 @@ module.exports = withPWA({
   },
 
   reactStrictMode: true,
-  // Ajoute d'autres options si besoin
-});
+
+  // Optionnel : vide pour éviter le warning Turbopack si tu gardes Turbopack plus tard
+   turbopack: {},
+};
+
+module.exports = withPWA(nextConfig);

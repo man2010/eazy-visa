@@ -41,12 +41,12 @@ function getEmailConfig() {
 }
 
 class EmailService {
-  private transporter: Transporter | null = null;
+  private transporter: any = null;
 
   /**
    * Initialisation lazy du transporter
    */
-  private getTransporter(): Transporter {
+  private getTransporter(): any {
     if (this.transporter) return this.transporter;
 
     const config = getEmailConfig();

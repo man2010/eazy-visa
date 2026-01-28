@@ -31,7 +31,7 @@ export default function HeroCarousel({
   ctaTargetId,
   ariaLabel = 'Carrousel d\'images',
 }: HeroCarouselProps) {
-  const sliderRef = useRef<Slider>(null);
+  const sliderRef = useRef<any>(null);
 
   const settings = {
     dots: true,

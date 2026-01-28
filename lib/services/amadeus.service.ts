@@ -1,6 +1,6 @@
 // src/services/amadeus.service.ts
 
-import axios from "axios";
+import axios, { AxiosInstance } from "axios";
 
 /**
  * Lecture des variables d'environnement AU RUNTIME
@@ -43,6 +43,21 @@ function getAmadeusConfig() {
   };
 }
 
+/**
+ * Crée une instance Axios avec baseURL pour éviter les bugs de parsing URL absolue en Node.js / Lambda
+ */
+function createAmadeusAxios(baseUrl: string): AxiosInstance {
+  return axios.create({
+    baseURL: baseUrl,
+    timeout: 15000,
+    headers: {
+      common: {
+        Accept: "application/json",
+      },
+    },
+  });
+}
+
 class AmadeusService {
   private accessToken: string | null = null;
   private tokenExpiry: number | null = null;
@@ -64,6 +79,7 @@ class AmadeusService {
     }
 
     const config = getAmadeusConfig();
+    const amadeusAxios = createAmadeusAxios(config.apiUrl);
 
     try {
       const params = new URLSearchParams({
@@ -72,14 +88,16 @@ class AmadeusService {
         client_secret: config.clientSecret,
       });
 
-      const response = await axios.post(
-        `${config.apiUrl}${config.endpoints.oauth}`,
+      console.log("Tentative auth Amadeus sur :", config.endpoints.oauth); // Debug
+
+      const response = await amadeusAxios.post(
+        config.endpoints.oauth,  // ← RELATIF grâce à baseURL
         params.toString(),
         {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
           },
-          timeout: 10000, // ✅ AJOUT : Timeout pour l'auth
+          timeout: 10000,
         }
       );
 
@@ -91,11 +109,12 @@ class AmadeusService {
     } catch (error: any) {
       console.error(
         "❌ Erreur authentification Amadeus:",
-        error.response?.data || error.message
+        error.message || "Unknown error",
+        error.code || "",
+        error.response?.data || ""
       );
-      // ✅ AMÉLIORATION : Plus de détails dans l'erreur
       throw new Error(
-        `Échec auth Amadeus: ${error.response?.data?.error_description || error.message}`
+        `Échec auth Amadeus: ${error.response?.data?.error_description || error.message || "Erreur inconnue"}`
       );
     }
   }
@@ -108,6 +127,7 @@ class AmadeusService {
     try {
       const config = getAmadeusConfig();
       const token = await this.getAccessToken();
+      const amadeusAxios = createAmadeusAxios(config.apiUrl);
 
       const params: any = {
         originLocationCode: searchParams.origin,
@@ -124,8 +144,8 @@ class AmadeusService {
 
       console.log("🔍 Recherche vols avec params:", params);
 
-      const response = await axios.get(
-        `${config.apiUrl}${config.endpoints.flightOffers}`,
+      const response = await amadeusAxios.get(
+        config.endpoints.flightOffers,
         {
           headers: { Authorization: `Bearer ${token}` },
           params,
@@ -138,15 +158,13 @@ class AmadeusService {
         success: true,
         data: response.data.data || [],
         meta: response.data.meta,
-        dictionaries: response.data.dictionaries, // ✅ AJOUT : dictionnaires
+        dictionaries: response.data.dictionaries,
       };
     } catch (error: any) {
       console.error(
         "❌ Erreur recherche vols:",
-        error.response?.data || error.message
+        error.message || error.response?.data || "Erreur inconnue"
       );
-      
-      // ✅ AMÉLIORATION : Retourner structure cohérente même en cas d'erreur
       return {
         success: false,
         error: error.response?.data?.errors?.[0]?.detail || error.message || "Erreur recherche vols",
@@ -159,9 +177,10 @@ class AmadeusService {
     try {
       const config = getAmadeusConfig();
       const token = await this.getAccessToken();
+      const amadeusAxios = createAmadeusAxios(config.apiUrl);
 
-      const response = await axios.post(
-        `${config.apiUrl}${config.endpoints.flightPricing}`,
+      const response = await amadeusAxios.post(
+        config.endpoints.flightPricing,
         {
           data: {
             type: "flight-offers-pricing",
@@ -182,7 +201,7 @@ class AmadeusService {
     } catch (error: any) {
       console.error(
         "❌ Erreur confirmation prix:",
-        error.response?.data || error.message
+        error.message || error.response?.data || "Erreur inconnue"
       );
       return {
         success: false,
@@ -195,9 +214,10 @@ class AmadeusService {
     try {
       const config = getAmadeusConfig();
       const token = await this.getAccessToken();
+      const amadeusAxios = createAmadeusAxios(config.apiUrl);
 
-      const response = await axios.post(
-        `${config.apiUrl}${config.endpoints.flightBooking}`,
+      const response = await amadeusAxios.post(
+        config.endpoints.flightBooking,
         {
           data: {
             type: "flight-order",
@@ -232,7 +252,7 @@ class AmadeusService {
     } catch (error: any) {
       console.error(
         "❌ Erreur création réservation:",
-        error.response?.data || error.message
+        error.message || error.response?.data || "Erreur inconnue"
       );
       return {
         success: false,
@@ -249,9 +269,10 @@ class AmadeusService {
     try {
       const config = getAmadeusConfig();
       const token = await this.getAccessToken();
+      const amadeusAxios = createAmadeusAxios(config.apiUrl);
 
-      const response = await axios.post(
-        `${config.apiUrl}${config.endpoints.seatmaps}`,
+      const response = await amadeusAxios.post(
+        config.endpoints.seatmaps,
         { data: flightOffers },
         {
           headers: {
@@ -264,7 +285,7 @@ class AmadeusService {
 
       return { success: true, data: response.data.data || [] };
     } catch (error: any) {
-      console.error("❌ Erreur seatmaps:", error.response?.data || error.message);
+      console.error("❌ Erreur seatmaps:", error.message || error.response?.data || "Erreur inconnue");
       return {
         success: false,
         error: error.response?.data?.errors?.[0]?.detail || "Erreur seatmaps",
@@ -277,9 +298,10 @@ class AmadeusService {
     try {
       const config = getAmadeusConfig();
       const token = await this.getAccessToken();
+      const amadeusAxios = createAmadeusAxios(config.apiUrl);
 
-      const response = await axios.get(
-        `${config.apiUrl}${config.endpoints.locations}`,
+      const response = await amadeusAxios.get(
+        config.endpoints.locations,
         {
           headers: { Authorization: `Bearer ${token}` },
           params: { 
@@ -293,7 +315,7 @@ class AmadeusService {
 
       return { success: true, data: response.data.data || [] };
     } catch (error: any) {
-      console.error("❌ Erreur locations:", error.response?.data || error.message);
+      console.error("❌ Erreur locations:", error.message || error.response?.data || "Erreur inconnue");
       return {
         success: false,
         error: error.response?.data?.errors?.[0]?.detail || "Erreur recherche locations",
@@ -306,6 +328,7 @@ class AmadeusService {
     try {
       const config = getAmadeusConfig();
       const token = await this.getAccessToken();
+      const amadeusAxios = createAmadeusAxios(config.apiUrl);
 
       const params: any = {
         cityCode,
@@ -316,8 +339,8 @@ class AmadeusService {
       if (ratings) params.ratings = ratings.join(",");
       if (amenities) params.amenities = amenities.join(",");
 
-      const response = await axios.get(
-        `${config.apiUrl}${config.endpoints.hotelsByCity}`,
+      const response = await amadeusAxios.get(
+        config.endpoints.hotelsByCity,
         {
           headers: { Authorization: `Bearer ${token}` },
           params,
@@ -327,7 +350,7 @@ class AmadeusService {
 
       return { success: true, data: response.data.data || [] };
     } catch (error: any) {
-      console.error("❌ Erreur hôtels:", error.response?.data || error.message);
+      console.error("❌ Erreur hôtels:", error.message || error.response?.data || "Erreur inconnue");
       return {
         success: false,
         error: error.response?.data?.errors?.[0]?.detail || "Erreur recherche hôtels",
@@ -345,9 +368,10 @@ class AmadeusService {
     try {
       const config = getAmadeusConfig();
       const token = await this.getAccessToken();
+      const amadeusAxios = createAmadeusAxios(config.apiUrl);
 
-      const response = await axios.get(
-        `${config.apiUrl}${config.endpoints.hotelOffers}`,
+      const response = await amadeusAxios.get(
+        config.endpoints.hotelOffers,
         {
           headers: { Authorization: `Bearer ${token}` },
           params: {
@@ -364,7 +388,7 @@ class AmadeusService {
 
       return { success: true, data: response.data.data || [] };
     } catch (error: any) {
-      console.error("❌ Erreur offres hôtels:", error.response?.data || error.message);
+      console.error("❌ Erreur offres hôtels:", error.message || error.response?.data || "Erreur inconnue");
       return {
         success: false,
         error: error.response?.data?.errors?.[0]?.detail || "Erreur offres hôtels",

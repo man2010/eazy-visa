@@ -178,7 +178,7 @@ const generateOrganizationSchema = () => ({
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="fr-SN" suppressHydrationWarning={true}>
+    <html lang="fr-SN" className="light" suppressHydrationWarning={true}>
       <head>
         {/* Preconnect to optimize resource loading */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />

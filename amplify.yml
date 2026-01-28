@@ -3,9 +3,17 @@ frontend:
   phases:
     preBuild:
       commands:
-        - npm ci --cache .npm --prefer-offline
+        - npm ci  # ou yarn install / pnpm install
     build:
       commands:
+        # Exporte TOUTES les vars sensibles au runtime SSR
+        - env | grep -e AMADEUS_API_URL -e AMADEUS_CLIENT_ID -e AMADEUS_CLIENT_SECRET >> .env.production
+        # Ajoute aussi les autres si besoin (SMTP, MONGODB_URI, etc.)
+        - env | grep -e SMTP_ >> .env.production
+        - env | grep -e MONGODB_URI >> .env.production
+        - env | grep -e EMAIL_FROM >> .env.production
+        # Optionnel : toutes les NEXT_PUBLIC_ pour client-side
+        - env | grep -e NEXT_PUBLIC_ >> .env.production
         - npm run build
   artifacts:
     baseDirectory: .next
@@ -13,6 +21,5 @@ frontend:
       - '**/*'
   cache:
     paths:
-      - .next/cache/**/*
-      - .npm/**/*
       - node_modules/**/*
+      - .next/cache/**/*

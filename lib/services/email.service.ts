@@ -29,7 +29,7 @@ function getEmailConfig() {
   // ✅ CRITICAL FIX: Enlever les guillemets si présents (bug Amplify)
   const cleanEmailFrom = EMAIL_FROM
     ? EMAIL_FROM.replace(/^["']|["']$/g, "")
-    : "Eazy-Visa <noreply@eazy-visa.com>";
+    : "Eazy-Visa <service@eazy-visa.com>";
 
   // ✅ CRITICAL FIX: Enlever les espaces dans le mot de passe (App Password Gmail)
   const cleanPassword = SMTP_PASS.replace(/\s+/g, "");
@@ -43,8 +43,8 @@ function getEmailConfig() {
       pass: cleanPassword,
     },
     from: cleanEmailFrom,
-    adminEmail: ADMIN_EMAIL || "admin@eazy-visa.com",
-    frontendUrl: FRONTEND_URL || "http://localhost:3000",
+    adminEmail: ADMIN_EMAIL || "service@eazy-visa.com",
+    frontendUrl: FRONTEND_URL || "https://www.app.eazy-visa.com",
   };
 }
 

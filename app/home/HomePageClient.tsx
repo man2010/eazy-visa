@@ -209,11 +209,11 @@ export default function HomePage() {
   return (
     <div className="min-h-screen">
       {/* Hero Section with Carousel */}
-      <section className="relative pt-20 pb-12">
+      <section className="relative pt-15 pb-12">
         <div className="w-full px-0">
           <HeroCarousel
             images={heroImages}
-            height="h-[634px]"
+            height="h-[670px]"
             title={"Arrêtez de Payer Trop Cher. Voyagez Plus."}
             subtitle={"Le meilleur prix garanti, un service 24/7, et des milliers de voyageurs satisfaits. Votre prochaine aventure commence ici."}
             ctaText="Découvrir nos offres"

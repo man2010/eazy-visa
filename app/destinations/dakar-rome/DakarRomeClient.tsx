@@ -154,7 +154,7 @@ export default function DakarRomeClient() {
       <section className="relative">
         <HeroCarousel
           images={heroImages}
-          height="h-[480px] md:h-[620px] lg:h-[680px]"
+          height="h-[730px]"
           title="Dakar → Rome"
           subtitle="Vols dès 350 000 FCFA – ITA Airways, TAP & meilleures offres – Paiement local sécurisé"
           ctaText="Rechercher un vol maintenant"
@@ -353,7 +353,6 @@ export default function DakarRomeClient() {
         </motion.div>
       </section>
 
-      <Footer />
 
       <FlightResultsModal
         isOpen={isFlightModalOpen}

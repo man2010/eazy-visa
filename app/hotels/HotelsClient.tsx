@@ -182,12 +182,12 @@ function HotelsPageContent() {
   };
 
   return (
-    <div className="min-h-screen pt-24 pb-16 bg-gray-50">
+    <div className="min-h-screen pt-15 pb-16 bg-gray-50">
       {/* Hero Section */}
       <section aria-label="Réservation d'hôtels">
         <HeroCarousel
           images={heroImages}
-          height="h-[634px]"
+          height="h-[670px]"
           title="Hôtels d'Exception — Confort, Emplacement, Valeur"
           subtitle="Comparez 2 millions d'hôtels dans 190 pays. Réservation simple, paiement flexible, meilleur prix garanti."
           ctaText="Rechercher un hôtel"

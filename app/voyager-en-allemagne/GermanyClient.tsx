@@ -120,7 +120,7 @@ export default function GermanyClient() {
   ];
 
   return (
-    <div className="min-h-screen pt-24 pb-16">
+    <div className="min-h-screen pt-15 pb-16">
       {/* Hero Section */}
       <section aria-label="Visa Allemagne - Introduction">
         <div className="w-full px-0">
@@ -131,7 +131,7 @@ export default function GermanyClient() {
           >
             <HeroCarousel
               images={heroImages}
-              height="h-[634px]"
+              height="h-[670px]"
               title="L'Allemagne vous ouvre ses portes — études, formation, travail"
               subtitle="Diplômes reconnus, formations rémunérées et accompagnement complet. Obtenez votre visa Allemagne avec 95% de réussite."
               ctaText="Je veux partir en Allemagne"

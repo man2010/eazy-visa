@@ -4,9 +4,9 @@ import { motion } from 'motion/react';
 import { MapPin, Phone, Mail, Clock } from 'lucide-react';
 
 const COMPANY_NAME = 'Eazy-Visa';
-const PHONE_NUMBER = '+221 76 948 60 60';
-const PHONE_HREF = '+221769486060';
-const EMAIL = 'contact@eazy-visa.com';
+const PHONE_NUMBER = '+221 33 844 12 12';
+const PHONE_HREF = '+221338441212';
+const EMAIL = 'service@eazy-visa.com';
 
 const SERVICES = [
   'Visa pour l\'Allemagne',
@@ -145,9 +145,10 @@ export default function Footer() {
                 <Clock className="w-5 h-5 text-[#A11C1C] flex-shrink-0 mt-0.5" aria-hidden="true" />
                 <div className="text-gray-400">
                   <p className="font-medium text-white">24/7 - 7j/7</p>
-                  <p className="text-xs">Service client toujours disponible</p>
+                  <p className="text-xs">Le monde ne dort pas , nous non plus 😅</p>
                 </div>
               </div>
+              
             </div>
           </motion.div>
         </div>
@@ -160,12 +161,16 @@ export default function Footer() {
           className="border-t border-gray-700 mt-12 pt-8 text-center text-sm text-gray-400"
         >
           <p>
-            &copy; 2019-2025 {COMPANY_NAME} - Agence de voyages Dakar, Sénégal | 
+            {COMPANY_NAME} - Agence de voyages Dakar, Sénégal | 
             <a href="https://www.eazy-visa.com" className="hover:text-white transition-colors"> www.eazy-visa.com</a>
           </p>
           <p className="mt-2 text-xs">
             Service client 24/7 | Tel: <a href={`tel:${PHONE_HREF}`} className="hover:text-white">{PHONE_NUMBER}</a>
           </p>
+          <p className="mt-2 text-xs">
+            Copyright © 2026 Eazy-visa site web officiel Made with ❤️ in Dakar
+          </p>
+
         </motion.div>
       </div>
     </footer>

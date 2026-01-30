@@ -76,10 +76,6 @@ export default function DakarCasablancaClient() {
 
   // Images pour le HeroCarousel – ambiance Casablanca / Maroc
   const heroImages = [
-    'https://images.unsplash.com/photo-1579169256999-2a18e3003680?ixlib=rb-4.0.3&auto=format&fit=crop&w=2340&q=80', // Mosquée Hassan II
-    'https://images.unsplash.com/photo-1590523277543-a94c8e8f070b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2340&q=80', // Casablanca skyline & mosquée
-    'https://images.unsplash.com/photo-1580130718646-9f694209b207?ixlib=rb-4.0.3&auto=format&fit=crop&w=2340&q=80', // Place Mohammed V
-    'https://images.unsplash.com/photo-1564507592333-c3f5b6c9f1a8?ixlib=rb-4.0.3&auto=format&fit=crop&w=2340&q=80', // Marché / ambiance médina
     'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2340&q=80', // Vue aérienne Casablanca
   ];
 
@@ -154,7 +150,7 @@ export default function DakarCasablancaClient() {
       <section className="relative">
         <HeroCarousel
           images={heroImages}
-          height="h-[480px] md:h-[620px] lg:h-[680px]"
+          height="h-[730px]"
           title="Dakar → Casablanca"
           subtitle="Vols dès 250 000 FCFA – Royal Air Maroc & Air Sénégal – Paiement local sécurisé"
           ctaText="Rechercher un vol maintenant"

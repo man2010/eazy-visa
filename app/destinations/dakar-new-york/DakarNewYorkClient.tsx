@@ -77,10 +77,6 @@ export default function DakarNewYorkClient() {
   // Images pour le HeroCarousel – ambiance New York
   const heroImages = [
     'https://images.unsplash.com/photo-1543716091-a840c05249ec?ixlib=rb-4.0.3&auto=format&fit=crop&w=2340&q=80', // Skyline Manhattan & Brooklyn Bridge
-    'https://images.unsplash.com/photo-1496442226666-8d4d0e2bc554?ixlib=rb-4.0.3&auto=format&fit=crop&w=2340&q=80', // Times Square nuit
-    'https://images.unsplash.com/photo-1499092346509-0eaaecbe1d88?ixlib=rb-4.0.3&auto=format&fit=crop&w=2340&q=80', // Statue de la Liberté
-    'https://images.unsplash.com/photo-1522083161048-9e0f2d9c2c4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2340&q=80', // Central Park vue aérienne
-    'https://images.unsplash.com/photo-1490644655129-6dd17109d6e0?ixlib=rb-4.0.3&auto=format&fit=crop&w=2340&q=80', // Empire State Building
   ];
 
   const flightInfos = [
@@ -154,7 +150,7 @@ export default function DakarNewYorkClient() {
       <section className="relative">
         <HeroCarousel
           images={heroImages}
-          height="h-[480px] md:h-[620px] lg:h-[680px]"
+          height="h-[730px]"
           title="Dakar → New York"
           subtitle="Vols dès 550 000 FCFA – Meilleures escales – Paiement Wave, Orange Money ou en agence"
           ctaText="Rechercher un vol maintenant"
@@ -353,7 +349,7 @@ export default function DakarNewYorkClient() {
         </motion.div>
       </section>
 
-      <Footer />
+      
 
       <FlightResultsModal
         isOpen={isFlightModalOpen}

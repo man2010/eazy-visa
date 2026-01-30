@@ -8,8 +8,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, Phone, MapPin, ChevronDown } from 'lucide-react';
 import BookingModal from './BookingModal';
 
-const PHONE_NUMBER = '+221 76 948 60 60';
-const PHONE_HREF = '+221769486060';
+const PHONE_NUMBER = '+221 33 844 12 12';
+const PHONE_HREF = '+221338441212';
 
 const NAV_LINKS = [
   { to: '/', label: 'Accueil' },

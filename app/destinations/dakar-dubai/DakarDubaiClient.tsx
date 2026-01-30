@@ -77,10 +77,7 @@ export default function DakarDubaiClient() {
   // Images pour le HeroCarousel – ambiance Dubaï / Émirats
   const heroImages = [
     'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2340&q=80', // Burj Khalifa & skyline
-    'https://images.unsplash.com/photo-1546412418-803d4a0f1895?ixlib=rb-4.0.3&auto=format&fit=crop&w=2340&q=80', // Palm Jumeirah & Atlantis
-    'https://images.unsplash.com/photo-1580142707858-0d9e0e6e8b8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2340&q=80', // Dubaï Marina nuit
     'https://images.unsplash.com/photo-1548685913-fe6678babe8d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2340&q=80', // Desert safari & dunes
-    'https://images.unsplash.com/photo-1548685913-fe6678babe8d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2340&q=80', // Burj Al Arab & plage
   ];
 
   const flightInfos = [
@@ -154,7 +151,7 @@ export default function DakarDubaiClient() {
       <section className="relative">
         <HeroCarousel
           images={heroImages}
-          height="h-[480px] md:h-[620px] lg:h-[680px]"
+          height="h-[730px]"
           title="Dakar → Dubaï"
           subtitle="Vols dès 450 000 FCFA – Emirates & meilleures offres – Paiement local sécurisé"
           ctaText="Rechercher un vol maintenant"

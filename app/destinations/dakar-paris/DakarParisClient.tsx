@@ -78,8 +78,6 @@ export default function DakarParisClient() {
   const heroImages = [
     'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?ixlib=rb-4.0.3&auto=format&fit=crop&w=2340&q=80', // Tour Eiffel coucher de soleil
     'https://images.unsplash.com/photo-1499856871958-5b9627545d1a?ixlib=rb-4.0.3&auto=format&fit=crop&w=2340&q=80', // Seine & Notre-Dame
-    'https://images.unsplash.com/photo-1549144511-4e6f8b3295d5?ixlib=rb-4.0.3&auto=format&fit=crop&w=2340&q=80', // Arc de Triomphe avenue
-    'https://images.unsplash.com/photo-1511739000-8b00d7142a3a?ixlib=rb-4.0.3&auto=format&fit=crop&w=2340&q=80', // Paris vue panoramique
     'https://images.unsplash.com/photo-1520962922320-2038eebab146?ixlib=rb-4.0.3&auto=format&fit=crop&w=2340&q=80', // Champs-Élysées nuit
   ];
 
@@ -154,7 +152,7 @@ export default function DakarParisClient() {
       <section className="relative">
         <HeroCarousel
           images={heroImages}
-          height="h-[480px] md:h-[620px] lg:h-[680px]"
+          height="h-[730px]"
           title="Dakar → Paris"
           subtitle="Vols dès 400 000 FCFA – Réservation instantanée – Paiement Wave, Orange Money ou en agence"
           ctaText="Rechercher un vol maintenant"

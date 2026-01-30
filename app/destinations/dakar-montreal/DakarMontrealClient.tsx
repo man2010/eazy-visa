@@ -76,11 +76,8 @@ export default function DakarMontrealClient() {
 
   // Images pour le HeroCarousel – ambiance Montréal / Canada
   const heroImages = [
-    'https://images.unsplash.com/photo-1517935706619-2735e2dc7c39?ixlib=rb-4.0.3&auto=format&fit=crop&w=2340&q=80', // Skyline Montréal hiver
     'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2340&q=80', // Vieux-Port Montréal
     'https://images.unsplash.com/photo-1503614472-8c93d56e92ce?ixlib=rb-4.0.3&auto=format&fit=crop&w=2340&q=80', // Mont-Royal vue panoramique
-    'https://images.unsplash.com/photo-1558618663-fd0b0c9a23f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=2340&q=80', // Rue animée Montréal
-    'https://images.unsplash.com/photo-1518098268026-4e266b1f3e0e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2340&q=80', // Stade Olympique & skyline
   ];
 
   const flightInfos = [
@@ -154,7 +151,7 @@ export default function DakarMontrealClient() {
       <section className="relative">
         <HeroCarousel
           images={heroImages}
-          height="h-[480px] md:h-[620px] lg:h-[680px]"
+          height="h-[730px]"
           title="Dakar → Montréal"
           subtitle="Vols dès 600 000 FCFA – Meilleures escales – Paiement Wave, Orange Money ou en agence"
           ctaText="Rechercher un vol maintenant"

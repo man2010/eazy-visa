@@ -76,11 +76,9 @@ export default function DakarMadridClient() {
 
   // Images pour le HeroCarousel – ambiance Madrid / Espagne
   const heroImages = [
-    'https://images.unsplash.com/photo-1543782249-3f02e0b0a6e0?ixlib=rb-4.0.3&auto=format&fit=crop&w=2340&q=80', // Plaza Mayor Madrid
-    'https://images.unsplash.com/photo-1558379150-8c835e6a0e7e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2340&q=80', // Palais Royal & Almudena
-    'https://images.unsplash.com/photo-1548625149-912c4a94e3c8?ixlib=rb-4.0.3&auto=format&fit=crop&w=2340&q=80', // Retiro Park
-    'https://images.unsplash.com/photo-1543782249-3f02e0b0a6e0?ixlib=rb-4.0.3&auto=format&fit=crop&w=2340&q=80', // Gran Vía nuit
-    'https://images.unsplash.com/photo-1551884938-974c1d0b0e8e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2340&q=80', // Vue panoramique Madrid
+    '/madrid1.jfif',
+    '/madrid2.jfif', // Vue panoramique Madrid
+    '/madrid3.jfif', // Plaza Mayor
   ];
 
   const flightInfos = [
@@ -154,7 +152,7 @@ export default function DakarMadridClient() {
       <section className="relative">
         <HeroCarousel
           images={heroImages}
-          height="h-[480px] md:h-[620px] lg:h-[680px]"
+          height="h-[730px]"
           title="Dakar → Madrid"
           subtitle="Vols dès 300 000 FCFA – Iberia, TAP & meilleures offres – Paiement local sécurisé"
           ctaText="Rechercher un vol maintenant"
@@ -353,7 +351,7 @@ export default function DakarMadridClient() {
         </motion.div>
       </section>
 
-      <Footer />
+      
 
       <FlightResultsModal
         isOpen={isFlightModalOpen}

@@ -360,13 +360,13 @@ export default function ServicesClient() {
   };
 
   return (
-    <div className="min-h-screen pt-24 pb-16 bg-gray-50">
+    <div className="min-h-screen pt-15 pb-16 bg-gray-50">
       {/* Hero Section */}
       <section aria-label="Présentation des services">
         <div className="w-full px-0 mb-20">
           <HeroCarousel
             images={heroImages}
-            height="h-[634px]"
+            height="h-[670px]"
             title="Nos Services"
             subtitle="Tout pour voyager sereinement, en un seul endroit. Support 24/7, paiement sécurisé, 5+ ans d'expérience."
             ctaText="Découvrir nos services"

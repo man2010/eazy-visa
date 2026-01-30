@@ -333,12 +333,12 @@ export default function BilletsSearchClient() {
   };
 
   return (
-    <div className="min-h-screen pt-24 pb-20 bg-gray-50">
+    <div className="min-h-screen pt-15 pb-20 bg-gray-50">
       {/* Hero Section */}
       <section aria-label="Recherche de vols">
         <HeroCarousel
           images={heroImages}
-          height="h-[634px]"
+          height="h-[670px]"
           title="Vols au Meilleur Prix — Réservez en Toute Sérénité"
           subtitle="Comparaison en temps réel de +500 compagnies. Paiement Wave/Orange Money/CB. Support 24/7."
           ctaText="Rechercher un vol"

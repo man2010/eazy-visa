@@ -76,11 +76,7 @@ export default function DakarIstanbulClient() {
 
   // Images pour le HeroCarousel – ambiance Istanbul
   const heroImages = [
-    'https://images.unsplash.com/photo-1541432901042-2d2bd0e0b23b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2340&q=80', // Mosquée bleue & minarets
     'https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?ixlib=rb-4.0.3&auto=format&fit=crop&w=2340&q=80', // Bosphore coucher de soleil
-    'https://images.unsplash.com/photo-1580831097920-96207e579159?ixlib=rb-4.0.3&auto=format&fit=crop&w=2340&q=80', // Sainte-Sophie de nuit
-    'https://images.unsplash.com/photo-1578683015146-bda5dd2a6c4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2340&q=80', // Grand Bazar Istanbul
-    'https://images.unsplash.com/photo-1546553559-9a62927a3158?ixlib=rb-4.0.3&auto=format&fit=crop&w=2340&q=80', // Vue panoramique Istanbul
   ];
 
   const flightInfos = [
@@ -154,7 +150,7 @@ export default function DakarIstanbulClient() {
       <section className="relative">
         <HeroCarousel
           images={heroImages}
-          height="h-[480px] md:h-[620px] lg:h-[680px]"
+          height="h-[730px]"
           title="Dakar → Istanbul"
           subtitle="Vols dès 350 000 FCFA – Turkish Airlines & meilleures offres – Paiement local sécurisé"
           ctaText="Rechercher un vol maintenant"

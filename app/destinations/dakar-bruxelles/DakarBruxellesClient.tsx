@@ -76,10 +76,6 @@ export default function DakarBruxellesClient() {
 
   // Images pour le HeroCarousel – ambiance Bruxelles / Belgique
   const heroImages = [
-    'https://images.unsplash.com/photo-1549823084-3c98cec07e39?ixlib=rb-4.0.3&auto=format&fit=crop&w=2340&q=80', // Grand Place Bruxelles
-    'https://images.unsplash.com/photo-1551896345-4b2d0e0d3e0d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2340&q=80', // Atomium
-    'https://images.unsplash.com/photo-1565543944332-38d4d4c3b0e5?ixlib=rb-4.0.3&auto=format&fit=crop&w=2340&q=80', // Manneken Pis & centre-ville
-    'https://images.unsplash.com/photo-1551884938-974c1d0b0e8e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2340&q=80', // Parc du Cinquantenaire
     'https://images.unsplash.com/photo-1549823084-3c98cec07e39?ixlib=rb-4.0.3&auto=format&fit=crop&w=2340&q=80', // Bruxelles nuit – Grand Place illuminée
   ];
 
@@ -154,7 +150,7 @@ export default function DakarBruxellesClient() {
       <section className="relative">
         <HeroCarousel
           images={heroImages}
-          height="h-[480px] md:h-[620px] lg:h-[680px]"
+          height="h-[730px]"
           title="Dakar → Bruxelles"
           subtitle="Vols dès 400 000 FCFA – Brussels Airlines & meilleures offres – Paiement local sécurisé"
           ctaText="Rechercher un vol maintenant"
@@ -353,7 +349,6 @@ export default function DakarBruxellesClient() {
         </motion.div>
       </section>
 
-      <Footer />
 
       <FlightResultsModal
         isOpen={isFlightModalOpen}

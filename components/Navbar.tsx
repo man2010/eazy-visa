@@ -8,16 +8,15 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, Phone, MapPin, ChevronDown } from 'lucide-react';
 import BookingModal from './BookingModal';
 
-const PHONE_NUMBER = '+221 33 844 12 12';
+const PHONE_NUMBER = 'Contact';
 const PHONE_HREF = '+221338441212';
 
 const NAV_LINKS = [
   { to: '/', label: 'Accueil' },
   { to: '/services', label: 'Services' },
-  { to: '/billets', label: 'Billets d\'avion' },
+  { to: '/billets', label: 'Billets' },
   { to: '/hotels', label: 'Hôtels' },
   { to: '/voyager-en-allemagne', label: 'Procedure en Allemagne' },
-  { to: '/destinations', label: 'Destinations' },
 ];
 
 const DESTINATIONS_SUBMENU = [

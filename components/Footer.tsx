@@ -21,6 +21,7 @@ const FOOTER_LINKS = [
   { to: '/partenariat', label: 'Partenariat' },
   { to: '/investissement', label: 'Investissement' },
   { to: '/a-propos', label: 'À propos' },
+  { to: '/destinations', label: 'Top Destinations' },
 ];
 
 const SOCIAL_LINKS = [

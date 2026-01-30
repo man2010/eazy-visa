@@ -42,7 +42,7 @@ const destinations = [
     slug: 'dakar-casablanca', 
     name: 'Casablanca', 
     country: 'Maroc', 
-    image: 'https://images.unsplash.com/photo-1579169256999-2a18e3003680?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjYXNhYmxhbmNhJTIwbW9zcXVlZWxlbnwxfHx8fDE3NjU5OTAwMDN8MA&ixlib=rb-4.1.0&q=80&w=1080',
+    image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2340&q=80', // Vue aérienne Casablanca
     priceFrom: '250 000 FCFA',
     duration: '4h',
     companies: 'Royal Air Maroc'
@@ -51,7 +51,7 @@ const destinations = [
     slug: 'dakar-montreal', 
     name: 'Montréal', 
     country: 'Canada', 
-    image: 'https://images.unsplash.com/photo-1517935706619-2735e2dc7c39?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb250cmVhJTIwc2t5bGluZWxlbnwxfHx8fDE3NjU5OTAwMTN8MA&ixlib=rb-4.1.0&q=80&w=1080',
+    image: 'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2340&q=80', // Vieux-Port Montréal
     priceFrom: '600 000 FCFA',
     duration: '10h',
     companies: 'Air Canada, via escale'
@@ -78,7 +78,7 @@ const destinations = [
     slug: 'dakar-madrid', 
     name: 'Madrid', 
     country: 'Espagne', 
-    image: 'https://images.unsplash.com/photo-1543783200-8694dba04a6a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtYWRyaWQlMjBwbGF6YSUyMG1heW9yfGVufDF8fHx8MTc2NTk5MDAzMnww&ixlib=rb-4.1.0&q=80&w=1080',
+    image: '/mad.jpg',
     priceFrom: '300 000 FCFA',
     duration: '5h',
     companies: 'Iberia'
@@ -96,7 +96,7 @@ const destinations = [
     slug: 'dakar-bruxelles', 
     name: 'Bruxelles', 
     country: 'Belgique', 
-    image: 'https://images.unsplash.com/photo-1549823084-3c98cec07e39?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxicnV4ZWxsZXMlMjBncmFuZCUyMHBsYWNlfGVufDF8fHx8MTc2NTk5MDA0MXww&ixlib=rb-4.1.0&q=80&w=1080',
+    image: '/belgique.avif',    
     priceFrom: '400 000 FCFA',
     duration: '6h',
     companies: 'Brussels Airlines'
@@ -105,10 +105,7 @@ const destinations = [
 
 // Images pour le HeroCarousel – orientées voyage / vols / destinations internationales depuis l'Afrique
 const heroImages = [
-  'https://images.unsplash.com/photo-1436491865338-7a61a109cc05?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=2000', // avion au décollage coucher de soleil
   'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=2000', // ambiance voyage – plage / horizon (représente départ vers ailleurs)
-  'https://images.unsplash.com/photo-1527631746610-b47e8f0e2d2d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=2000', // aéroport international animé
-  'https://images.unsplash.com/photo-1559523195-5b2c5e0d3c8a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=2000', // skyline mixte (Paris / Dubaï / NY vibe)
   'https://images.unsplash.com/photo-1501785888041-af3ef285b470?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=2000', // avion survolant paysage
 ];
 
@@ -119,7 +116,7 @@ export default function DestinationsClient() {
       <section className="relative">
         <HeroCarousel
           images={heroImages}
-          height="h-[500px] md:h-[620px]"
+          height="h-[730px]"
           title="Découvrez le Monde depuis Dakar"
           subtitle="Vols pas chers vers Paris, Istanbul, Casablanca, Dubaï et bien plus. Paiement Wave, Orange Money, carte ou cash – Réservez 24/7 !"
           ctaText="Voir toutes les destinations"
@@ -272,7 +269,6 @@ export default function DestinationsClient() {
         </div>
       </section>
 
-      <Footer />
     </div>
   );
 }

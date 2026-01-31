@@ -8,7 +8,7 @@ import { generateKnowledgeGraphSchema } from '@/lib/seo/richSnippets';
 
 export function SEOHead() {
   const baseUrl = process.env.NODE_ENV === 'production'
-    ? 'https://www.eazy-visa.com'
+    ? 'https://www.app.eazy-visa.com'
     : 'http://localhost:3000';
 
   const knowledgeGraph = generateKnowledgeGraphSchema();
@@ -71,8 +71,8 @@ export function SEOHead() {
       {/* Additional Meta Tags for Social */}
       <meta property="og:type" content="business.business" />
       <meta property="og:locale" content="fr_SN" />
-      <meta name="format-detection" content="telephone=+221769486060" />
-      <meta name="format-detection" content="email=contact@eazy-visa.com" />
+      <meta name="format-detection" content="telephone=+221338441212" />
+      <meta name="format-detection" content="email=service@eazy-visa.com" />
 
       {/* Verification Tags (À compléter) */}
       {/* <meta name="google-site-verification" content="..." /> */}

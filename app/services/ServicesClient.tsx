@@ -616,52 +616,63 @@ export default function ServicesClient() {
         </motion.section>
 
         {/* Testimonials */}
-        <section className="mb-0" aria-labelledby="testimonials-heading">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 id="testimonials-heading" className="text-4xl md:text-5xl font-bold mb-4">
-              Ils nous font confiance
-            </h2>
-            <p className="text-xl text-gray-600">
-              Témoignages de nos clients satisfaits
-            </p>
-          </motion.div>
+        {/* Testimonials */}
+<section className="mb-0" aria-labelledby="testimonials-heading">
+  <motion.div
+    initial={{ opacity: 0, y: 20 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true }}
+    className="text-center mb-16"
+  >
+    <h2 id="testimonials-heading" className="text-4xl md:text-5xl font-bold mb-4">
+      Ils nous font confiance
+    </h2>
+    <p className="text-xl text-gray-600">
+      Témoignages de nos clients satisfaits
+    </p>
+  </motion.div>
 
-          <div className="grid md:grid-cols-3 gap-8">
-            {testimonials.map((testimonial, index) => (
-              <motion.article
-                key={testimonial.name}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                whileHover={{ y: -10 }}
-                className="bg-white rounded-2xl p-8 shadow-xl"
-                itemScope
-                itemType="https://schema.org/Review"
-              >
-                <div className="flex gap-1 mb-4" itemProp="reviewRating" itemScope itemType="https://schema.org/Rating">
-                  <meta itemProp="ratingValue" content={testimonial.rating.toString()} />
-                  <meta itemProp="bestRating" content="5" />
-                  {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" aria-hidden="true" />
-                  ))}
-                </div>
-                <p className="text-gray-700 mb-6 leading-relaxed italic" itemProp="reviewBody">
-                  "{testimonial.text}"
-                </p>
-                <div className="border-t pt-4">
-                  <p className="font-bold text-gray-900" itemProp="author">{testimonial.name}</p>
-                  <p className="text-sm text-gray-600">{testimonial.service}</p>
-                </div>
-              </motion.article>
-            ))}
+  <div className="grid md:grid-cols-3 gap-8">
+    {testimonials.map((testimonial, index) => (
+      <motion.article
+        key={testimonial.name}
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ delay: index * 0.1 }}
+        whileHover={{ y: -10 }}
+        className="bg-white rounded-2xl p-8 shadow-xl"
+        itemScope
+        itemType="https://schema.org/Review"
+      >
+        {/* AJOUT: itemReviewed - CE QUI EST ÉVALUÉ */}
+        <div itemProp="itemReviewed" itemScope itemType="https://schema.org/Organization" style={{display: 'none'}}>
+          <meta itemProp="name" content="Eazy-Visa" />
+        </div>
+
+        <div className="flex gap-1 mb-4" itemProp="reviewRating" itemScope itemType="https://schema.org/Rating">
+          <meta itemProp="ratingValue" content={testimonial.rating.toString()} />
+          <meta itemProp="bestRating" content="5" />
+          {[...Array(testimonial.rating)].map((_, i) => (
+            <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" aria-hidden="true" />
+          ))}
+        </div>
+        
+        <p className="text-gray-700 mb-6 leading-relaxed italic" itemProp="reviewBody">
+          "{testimonial.text}"
+        </p>
+        
+        <div className="border-t pt-4">
+          {/* CORRECTION: author doit être Person, pas juste une string */}
+          <div itemProp="author" itemScope itemType="https://schema.org/Person">
+            <p className="font-bold text-gray-900" itemProp="name">{testimonial.name}</p>
           </div>
-        </section>
+          <p className="text-sm text-gray-600">{testimonial.service}</p>
+        </div>
+      </motion.article>
+    ))}
+  </div>
+</section>
       </div>
 
       {/* Modal */}

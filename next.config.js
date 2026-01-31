@@ -91,7 +91,7 @@ const nextConfig = {
 
   reactStrictMode: true,
 
-  // ✅ Headers pour PWA
+  // ✅ Headers pour PWA + CACHE LONG TERME POUR IMAGES
   async headers() {
     return [
       {
@@ -121,6 +121,36 @@ const nextConfig = {
           {
             key: 'Service-Worker-Allowed',
             value: '/',
+          },
+        ],
+      },
+      // ✅ CACHE 1 AN POUR LES IMAGES STATIQUES (CRITIQUE POUR PERFORMANCE)
+      {
+        source: '/:all*(svg|jpg|jpeg|png|webp|gif|ico)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      // ✅ CACHE 1 AN POUR LES POLICES
+      {
+        source: '/:all*(woff|woff2|ttf|otf|eot)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      // ✅ PRELOAD HINT POUR CSS CRITIQUE
+      {
+        source: '/',
+        headers: [
+          {
+            key: 'Link',
+            value: '</media/slick.265d68e3.woff>; rel=preload; as=font; type=font/woff; crossorigin=anonymous',
           },
         ],
       },

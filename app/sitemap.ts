@@ -6,7 +6,7 @@
 import { MetadataRoute } from 'next';
 
 const baseUrl = process.env.NODE_ENV === 'production'
-  ? 'https://www.eazy-visa.com'
+  ? 'https://www.app.eazy-visa.com'
   : 'http://localhost:3000';
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -45,6 +45,66 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: now,
       changeFrequency: 'weekly',
       priority: 0.85,
+    },
+    {
+      url: `${baseUrl}/destinations`,
+      lastModified: now,
+      changeFrequency: 'weekly',
+      priority: 0.95,
+    },
+    {
+      url: `${baseUrl}/destinations/dakar-paris`,
+      lastModified: now,
+      changeFrequency: 'weekly',
+      priority: 0.95,
+    },
+    {
+      url: `${baseUrl}/destinations/dakar-rome`,
+      lastModified: now,
+      changeFrequency: 'weekly',
+      priority: 0.90,
+    },
+    {
+      url: `${baseUrl}/destinations/dakar-new-york`,
+      lastModified: now,
+      changeFrequency: 'weekly',
+      priority: 0.90,
+    },
+    {
+      url: `${baseUrl}/destinations/dakar-casablanca`,
+      lastModified: now,
+      changeFrequency: 'weekly',
+      priority: 0.95,
+    },
+    {
+      url: `${baseUrl}/destinations/dakar-montreal`,
+      lastModified: now,
+      changeFrequency: 'weekly',
+      priority: 0.95,
+    },
+    {
+      url: `${baseUrl}/destinations/dakar-madrid`,
+      lastModified: now,
+      changeFrequency: 'weekly',
+      priority: 0.95,
+    },
+    {
+      url: `${baseUrl}/destinations/dakar-bruxelles`,
+      lastModified: now,
+      changeFrequency: 'weekly',
+      priority: 0.95,
+    },
+    {
+      url: `${baseUrl}/destinations/dakar-dubai`,
+      lastModified: now,
+      changeFrequency: 'weekly',
+      priority: 0.95,
+    },
+    {
+      url: `${baseUrl}/destinations/dakar-istanbul`,
+      lastModified: now,
+      changeFrequency: 'weekly',
+      priority: 0.95,
     },
 
     // PAGES LÉGALES

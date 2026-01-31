@@ -6,7 +6,7 @@
 import { MetadataRoute } from 'next';
 
 const baseUrl = process.env.NODE_ENV === 'production'
-  ? 'https://www.eazy-visa.com'
+  ? 'https://www.app.eazy-visa.com'
   : 'http://localhost:3000';
 
 export default function robots(): MetadataRoute.Robots {
@@ -32,7 +32,7 @@ export default function robots(): MetadataRoute.Robots {
       },
     ],
     sitemap: `${baseUrl}/sitemap.xml`,
-    host: 'www.eazy-visa.com',
+    host: 'www.app.eazy-visa.com',
   };
 }
 

@@ -1,13 +1,11 @@
 /**
  * HERO CAROUSEL - SEO & PERFORMANCE OPTIMIZED
  * Lazy loading, semantic HTML, accessibility, Core Web Vitals
- * ✅ CLS FIX: Dimensions fixes + aspect-ratio
- * ✅ LCP FIX: fetchpriority="high" sur première image
  */
 
 'use client';
 
-import React, { useRef, useState } from 'react'; 
+import React, { useRef } from 'react'; 
 import Slider from 'react-slick';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { motion } from 'motion/react';
@@ -34,7 +32,6 @@ export default function HeroCarousel({
   ariaLabel = 'Carrousel d\'images',
 }: HeroCarouselProps) {
   const sliderRef = useRef<any>(null);
-  const [isLoaded, setIsLoaded] = useState(false);
 
   const settings = {
     dots: true,
@@ -48,7 +45,6 @@ export default function HeroCarousel({
     cssEase: 'cubic-bezier(0.4, 0, 0.2, 1)',
     pauseOnHover: true,
     arrows: false,
-    onInit: () => setIsLoaded(true),
   };
 
   function handleCta() {
@@ -64,42 +60,21 @@ export default function HeroCarousel({
       className="relative overflow-hidden rounded-2xl"
       role="region"
       aria-label={ariaLabel}
-      style={{ 
-        minHeight: height === 'h-[670px]' ? '670px' : '500px',
-        aspectRatio: '16/9' 
-      }}
     >
-      <div 
-        style={{ 
-          visibility: isLoaded ? 'visible' : 'hidden',
-          minHeight: height === 'h-[670px]' ? '670px' : '500px'
-        }}
-      >
-        <Slider ref={sliderRef} {...settings}>
-          {images.map((image, index) => (
-            <div key={index} className="relative">
-              <div className={`${height} relative`} style={{ minHeight: height === 'h-[670px]' ? '670px' : '500px' }}>
-                <img
-                  src={image}
-                  alt={`Slide ${index + 1}`}
-                  className="w-full h-full object-cover"
-                  width={2560}
-                  height={1286}
-                  loading={index === 0 ? 'eager' : 'lazy'}
-                  fetchPriority={index === 0 ? 'high' : 'low'}
-                  style={{ 
-                    display: 'block',
-                    width: '100%',
-                    height: '100%',
-                    objectFit: 'cover'
-                  }}
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-              </div>
+      <Slider ref={sliderRef} {...settings}>
+        {images.map((image, index) => (
+          <div key={index} className="relative">
+            <div className={`${height} relative`}>
+              <img
+                src={image}
+                alt={`Slide ${index + 1}`}
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
             </div>
-          ))}
-        </Slider>
-      </div>
+          </div>
+        ))}
+      </Slider>
 
       {/* Overlay texte blanc, centré et responsive */}
       <div className="absolute inset-0 pointer-events-none flex items-center justify-center px-4 sm:px-6 lg:px-0">
@@ -140,7 +115,7 @@ export default function HeroCarousel({
         </motion.div>
       </div>
 
-      {/* Flèches
+      {/* Flèches */}
       <button
         onClick={() => sliderRef.current?.slickPrev()}
         className="absolute left-4 top-1/2 -translate-y-1/2 z-10 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/90 hover:bg-white flex items-center justify-center shadow-lg transition-all hover:scale-110 group"
@@ -155,7 +130,6 @@ export default function HeroCarousel({
       >
         <ChevronRight className="w-5 h-5 text-gray-800 group-hover:text-red-600 transition-colors" />
       </button>
-      */}
     </section>
   );
 }

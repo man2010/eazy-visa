@@ -140,7 +140,7 @@ export default function HeroCarousel({
         </motion.div>
       </div>
 
-      {/* Flèches */}
+      {/* Flèches
       <button
         onClick={() => sliderRef.current?.slickPrev()}
         className="absolute left-4 top-1/2 -translate-y-1/2 z-10 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/90 hover:bg-white flex items-center justify-center shadow-lg transition-all hover:scale-110 group"
@@ -155,6 +155,7 @@ export default function HeroCarousel({
       >
         <ChevronRight className="w-5 h-5 text-gray-800 group-hover:text-red-600 transition-colors" />
       </button>
+      */}
     </section>
   );
 }

@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     description:
       'Réservez votre vol Dakar-Rome au meilleur prix. Alitalia, ITA Airways, TAP Air Portugal, Air France. Paiement Wave, Orange Money, carte. Support 24/7.',
     images: [{ url: '/og-dakar-rome.jpg' }],
-    url: 'https://www.eazy-visa.com/destinations/dakar-rome',
+    url: 'https://www.app.eazy-visa.com/destinations/dakar-rome',
   },
 };
 

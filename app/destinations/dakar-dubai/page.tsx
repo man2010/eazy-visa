@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     description:
       'Réservez votre vol Dakar-Dubaï au meilleur prix. Emirates, Turkish Airlines, Qatar Airways. Paiement Wave, Orange Money, carte. Support 24/7.',
     images: [{ url: '/og-dakar-dubai.jpg' }],
-    url: 'https://www.eazy-visa.com/destinations/dakar-dubai',
+    url: 'https://www.app.eazy-visa.com/destinations/dakar-dubai',
   },
 };
 

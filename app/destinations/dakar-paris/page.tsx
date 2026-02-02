@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     title: 'Billet Avion Dakar Paris Pas Cher | Dès 400K FCFA | Eazy-Visa',
     description: 'Réservez votre vol Dakar-Paris au meilleur prix. Paiement Wave/Orange Money/Carte. Vols directs ou escales. Support 24/7. Annulation flexible.',
     images: [{ url: '/og-dakar-paris.jpg' }],
-    url: 'https://www.eazy-visa.com/destinations/dakar-paris',
+    url: 'https://www.app.eazy-visa.com/destinations/dakar-paris',
     type: 'website',
   },
   twitter: {

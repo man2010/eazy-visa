@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     description:
       'Réservez votre vol Dakar-Casablanca au meilleur prix. Royal Air Maroc et autres compagnies. Paiement Wave, Orange Money, carte. Vols fréquents.',
     images: [{ url: '/og-dakar-casablanca.jpg' }],
-    url: 'https://www.eazy-visa.com/destinations/dakar-casablanca',
+    url: 'https://www.app.eazy-visa.com/destinations/dakar-casablanca',
   },
 };
 

@@ -12,10 +12,10 @@ export const metadata: Metadata = {
   
   // ✅ CANONICAL ABSOLU CRITIQUE
   alternates: {
-    canonical: 'https://www.eazy-visa.com',
+    canonical: 'https://www.app.eazy-visa.com',
     languages: {
-      'fr-SN': 'https://www.eazy-visa.com',
-      'fr-FR': 'https://www.eazy-visa.com',
+      'fr-SN': 'https://www.app.eazy-visa.com',
+      'fr-FR': 'https://www.app.eazy-visa.com',
     },
   },
 
@@ -23,13 +23,13 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'fr_SN',
-    url: 'https://www.eazy-visa.com',
+    url: 'https://www.app.eazy-visa.com',
     siteName: 'Eazy-Visa',
     title: 'Agence Voyage Dakar | Billets Avion & Visa Allemagne',
     description: 'Meilleur prix garanti. Service 24/7. Paiement flexible. Réservez maintenant!',
     images: [
       {
-        url: 'https://www.eazy-visa.com/og-image-home.jpg',
+        url: 'https://www.app.eazy-visa.com/og-image-home.jpg',
         width: 1200,
         height: 630,
         alt: 'Eazy-Visa Dakar - Agence de voyages #1 au Sénégal',
@@ -45,7 +45,7 @@ export const metadata: Metadata = {
     creator: '@EazyVisa',
     title: 'Agence Voyage Dakar | Vols & Visa Allemagne',
     description: 'Prix imbattables. Service 24/7. +221 76 948 60 60',
-    images: ['https://www.eazy-visa.com/og-image-home.jpg'],
+    images: ['https://www.app.eazy-visa.com/og-image-home.jpg'],
   },
 
   // ✅ ROBOTS: Indexation prioritaire
@@ -74,16 +74,16 @@ export const metadata: Metadata = {
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'WebPage',
-  '@id': 'https://www.eazy-visa.com/#webpage',
-  'url': 'https://www.eazy-visa.com',
+  '@id': 'https://www.app.eazy-visa.com/#webpage',
+  'url': 'https://www.app.eazy-visa.com',
   'name': 'Eazy-Visa | Agence de Voyages Dakar - Billets d\'Avion & Visa Allemagne',
   'description': 'Réservation billets d\'avion pas cher et visa Allemagne express au Sénégal',
   'inLanguage': 'fr-SN',
   'isPartOf': {
-    '@id': 'https://www.eazy-visa.com/#website'
+    '@id': 'https://www.app.eazy-visa.com/#website'
   },
   'about': {
-    '@id': 'https://www.eazy-visa.com/#organization'
+    '@id': 'https://www.app.eazy-visa.com/#organization'
   },
   'datePublished': '2023-01-01',
   'dateModified': new Date().toISOString().split('T')[0],
@@ -91,7 +91,7 @@ const jsonLd = {
     '@type': 'SearchAction',
     'target': {
       '@type': 'EntryPoint',
-      'urlTemplate': 'https://www.eazy-visa.com/recherche?query={search_term_string}'
+      'urlTemplate': 'https://www.app.eazy-visa.com/recherche?query={search_term_string}'
     },
     'query-input': 'required name=search_term_string'
   }

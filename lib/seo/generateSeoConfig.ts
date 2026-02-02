@@ -6,7 +6,7 @@
 export const SEO_CONFIG = {
   // URLS DE BASE
   baseUrl: process.env.NODE_ENV === 'production' 
-    ? 'https://www.eazy-visa.com' 
+    ? 'https://www.app.eazy-visa.com' 
     : 'http://localhost:3000',
 
   // DONNÉES LOCALES

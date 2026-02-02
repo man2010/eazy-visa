@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     description:
       'Réservez votre vol Dakar-Montréal au meilleur prix. Air Canada, Air France, TAP Air Portugal et autres. Paiement Wave, Orange Money, carte. Support 24/7.',
     images: [{ url: '/og-dakar-montreal.jpg' }],
-    url: 'https://www.eazy-visa.com/destinations/dakar-montreal',
+    url: 'https://www.app.eazy-visa.com/destinations/dakar-montreal',
   },
 };
 

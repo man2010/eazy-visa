@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     description:
       'Réservez votre vol Dakar-Istanbul au meilleur prix. Turkish Airlines et autres compagnies. Paiement Wave, Orange Money, carte. Support 24/7.',
     images: [{ url: '/og-dakar-istanbul.jpg' }],
-    url: 'https://www.eazy-visa.com/destinations/dakar-istanbul',
+    url: 'https://www.app.eazy-visa.com/destinations/dakar-istanbul',
   },
 };
 

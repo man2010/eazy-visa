@@ -4,7 +4,7 @@
  */
 
 const SITE_URL = process.env.NODE_ENV === 'production' 
-  ? 'https://www.eazy-visa.com' 
+  ? 'https://www.app.eazy-visa.com' 
   : 'http://localhost:3000';
 
 export const CANONICAL_URLS = {
@@ -14,10 +14,20 @@ export const CANONICAL_URLS = {
   services: `${SITE_URL}/services`,
   visaAllemagne: `${SITE_URL}/voyager-en-allemagne`,
   aboutUs: `${SITE_URL}/a-propos`,
+  montreal : `${SITE_URL}/destinations/dakar-montreal`,
+  rome : `${SITE_URL}/destinations/dakar-rome`,
   careers: `${SITE_URL}/carrieres`,
   partnership: `${SITE_URL}/partenariat`,
   investment: `${SITE_URL}/investissement`,
   cgu: `${SITE_URL}/cgu`,
+  destinations : `${SITE_URL}/destinations`,
+  paris : `${SITE_URL}/destinations/dakar-paris`,
+  madrid : `${SITE_URL}/destinations/dakar-madrid`,
+  casablanca : `${SITE_URL}/destinations/dakar-casablanca`,
+  bruxelles : `${SITE_URL}/destinations/dakar-bruxelles`,
+  dubai : `${SITE_URL}/destinations/dakar-dubai`,
+  istanbul : `${SITE_URL}/destinations/dakar-istanbul`,
+  newyork : `${SITE_URL}/destinations/dakar-new-york`,
 } as const;
 
 /**

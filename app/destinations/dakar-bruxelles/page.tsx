@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     description:
       'Réservez votre vol Dakar-Bruxelles au meilleur prix. Brussels Airlines, Air France, TAP Air Portugal et autres. Paiement Wave, Orange Money, carte. Support 24/7.',
     images: [{ url: '/og-dakar-bruxelles.jpg' }],
-    url: 'https://www.eazy-visa.com/destinations/dakar-bruxelles',
+    url: 'https://www.app.eazy-visa.com/destinations/dakar-bruxelles',
   },
 };
 

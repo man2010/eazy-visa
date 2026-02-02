@@ -6,7 +6,7 @@
 import type { Metadata } from 'next';
 
 const siteUrl = process.env.NODE_ENV === 'production' 
-  ? 'https://www.eazy-visa.com' 
+  ? 'https://www.app.eazy-visa.com' 
   : 'http://localhost:3000';
 
 export const metadata: Metadata = {

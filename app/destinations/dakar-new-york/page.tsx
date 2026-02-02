@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     description:
       'Réservez votre vol Dakar-New York au meilleur prix. Delta, Air France, TAP Air Portugal et autres. Paiement Wave, Orange Money, carte. Support 24/7.',
     images: [{ url: '/og-dakar-new-york.jpg' }],
-    url: 'https://www.eazy-visa.com/destinations/dakar-new-york',
+    url: 'https://www.app.eazy-visa.com/destinations/dakar-new-york',
   },
 };
 

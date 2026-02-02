@@ -15,7 +15,7 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: '*',
         allow: '/',
-        disallow: ['/api/', '/admin/', '/*.json$', '/*.xml$', '/checkout/'],
+        disallow: ['/api/', '/admin/', '/checkout/'],
         crawlDelay: 1,
       },
       {

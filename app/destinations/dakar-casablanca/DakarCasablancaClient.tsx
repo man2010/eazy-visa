@@ -3,6 +3,7 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 import { toast } from 'sonner';
 import HeroCarousel from '@/components/HeroCarousel';
 import FlightResultsModal from '@/components/FlightResultsModal';
@@ -274,10 +275,12 @@ export default function DakarCasablancaClient() {
               className="bg-white rounded-2xl p-7 shadow-lg"
             >
               <div className="flex items-center gap-4 mb-5">
-                <img
+                <Image
                   src={t.image}
                   alt={t.name}
-                  className="w-14 h-14 rounded-full object-cover border-2 border-[#A11C1C]/20"
+                  className="rounded-full object-cover border-2 border-[#A11C1C]/20"
+                  width={56}
+                  height={56}
                 />
                 <div>
                   <h4 className="font-bold text-lg">{t.name}</h4>

@@ -7,6 +7,7 @@
 
 import { useState } from 'react';
 import { motion } from 'motion/react';
+import Image from 'next/image';
 import HeroCarousel from '@/components/HeroCarousel';
 import BookingModal from '@/components/BookingModal';
 import { 
@@ -387,10 +388,11 @@ export default function AProposClient() {
                   whileHover={{ scale: 1.1 }}
                   transition={{ duration: 0.3 }}
                 >
-                  <img
+                  <Image
                     src={member.image}
                     alt={`${member.name} - ${member.role} chez Eazy-Visa`}
                     className="w-full h-full object-cover"
+                    fill
                     loading="lazy"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />

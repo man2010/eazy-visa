@@ -7,6 +7,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 import Link from 'next/link';
 import HeroCarousel from '@/components/HeroCarousel'; // Assumé existant (import depuis components)
 import Footer from '@/components/Footer';
@@ -152,10 +153,11 @@ export default function DestinationsClient() {
               className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100"
             >
               <div className="relative h-48 md:h-56">
-                <img 
+                <Image 
                   src={dest.image} 
                   alt={`Vol pas cher Dakar vers ${dest.name} – ${dest.country}`} 
                   className="w-full h-full object-cover transition-transform duration-700 hover:scale-110"
+                  fill
                   loading="lazy"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-black/30 to-transparent" />

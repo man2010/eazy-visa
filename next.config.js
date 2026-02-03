@@ -91,6 +91,13 @@ const nextConfig = {
 
   reactStrictMode: true,
 
+  images: {
+    remotePatterns: [
+      { protocol: 'https', hostname: 'images.unsplash.com' },
+      { protocol: 'https', hostname: 'source.unsplash.com' },
+    ],
+  },
+
   // ✅ Headers pour PWA + CACHE LONG TERME POUR IMAGES
   async headers() {
     return [

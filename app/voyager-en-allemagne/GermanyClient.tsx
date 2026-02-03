@@ -7,6 +7,7 @@
 
 import { useState } from 'react';
 import { motion } from 'motion/react';
+import Image from 'next/image';
 import HeroCarousel from '@/components/HeroCarousel';
 import { 
   TrendingUp, 
@@ -181,10 +182,12 @@ export default function GermanyClient() {
                 </p>
               </div>
               <div className="relative">
-                <img
+                <Image
                   src="https://images.unsplash.com/photo-1528728329032-2972f65dfb3f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxnZXJtYW55JTIwYmVybGlufGVufDF8fHx8MTc2NTk4NjQ3NHww&ixlib=rb-4.1.0&q=80&w=1080"
                   alt="Berlin Allemagne - Porte de Brandebourg"
                   className="rounded-2xl shadow-2xl"
+                  width={1080}
+                  height={720}
                   loading="lazy"
                 />
               </div>
@@ -388,10 +391,11 @@ export default function GermanyClient() {
                 onClick={() => setSelectedVideo(person.name)}
               >
                 <div className="relative h-80 rounded-2xl overflow-hidden">
-                  <img
+                  <Image
                     src={person.image}
                     alt={`Témoignage ${person.name} - Visa Allemagne Eazy-Visa`}
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    fill
                     loading="lazy"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />

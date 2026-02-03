@@ -7,6 +7,8 @@
 
 import { useState } from 'react';
 import { motion } from 'motion/react';
+import Image from 'next/image';
+const MotionImage = motion(Image);
 import HeroCarousel from '@/components/HeroCarousel';
 import { 
   Plane, 
@@ -263,10 +265,11 @@ export default function ServicesClient() {
           {/* Header */}
           <div className={`relative h-64 bg-gradient-to-r ${selectedService.color} text-white p-8 flex items-end`}>
             <div className="absolute inset-0 opacity-20">
-              <img 
-                src={selectedService.image} 
-                alt="" 
-                className="w-full h-full object-cover" 
+              <Image
+                src={selectedService.image}
+                alt=""
+                className="w-full h-full object-cover"
+                fill
               />
             </div>
             <button 
@@ -441,12 +444,13 @@ export default function ServicesClient() {
                 }}
               >
                 <div className="relative h-64 overflow-hidden">
-                  <motion.img
+                  <MotionImage
                     whileHover={{ scale: 1.1 }}
                     transition={{ duration: 0.3 }}
                     src={service.image}
                     alt={`${service.title} - Eazy-Visa Dakar`}
                     className="w-full h-full object-cover"
+                    fill
                     loading="lazy"
                   />
                   <div className={`absolute inset-0 bg-gradient-to-t ${service.color} opacity-60 group-hover:opacity-80 transition-opacity`} />

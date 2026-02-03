@@ -1,5 +1,6 @@
 'use client';
 import { motion } from 'motion/react';
+import Image from 'next/image';
 import { useState } from 'react';
 
 // ── composants privés
@@ -570,10 +571,11 @@ export default function HomePage() {
                 whileHover={{ y: -10, scale: 1.05 }}
                 className="relative h-80 rounded-2xl overflow-hidden group cursor-pointer"
               >
-                <img
+                <Image
                   src={dest.image}
                   alt={dest.name}
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  fill
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
                 <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
@@ -615,10 +617,12 @@ export default function HomePage() {
                 className="bg-white rounded-2xl p-8 shadow-xl"
               >
                 <div className="flex items-start gap-4 mb-4">
-                  <img
+                  <Image
                     src={testimonial.image}
                     alt={testimonial.name}
-                    className="w-16 h-16 rounded-full object-cover"
+                    className="rounded-full object-cover"
+                    width={64}
+                    height={64}
                   />
                   <div>
                     <h4 className="font-bold text-lg">{testimonial.name}</h4>

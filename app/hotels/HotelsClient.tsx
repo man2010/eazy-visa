@@ -8,6 +8,7 @@
 import { useState, useEffect } from 'react';
 import { Suspense } from 'react';
 import { motion } from 'motion/react';
+import Image from 'next/image';
 import { 
   Hotel, 
   MapPin, 
@@ -421,13 +422,14 @@ function HotelsPageContent() {
                           className="bg-white rounded-2xl shadow-xl overflow-hidden flex flex-col lg:flex-row"
                         >
                           <div className="lg:w-96 h-64 lg:h-auto relative">
-                            <img
+                            <Image
                               src={hotelOffer.image || 'https://source.unsplash.com/featured/?hotel,luxury'}
                               alt={`${hotel.name} - Photo de l'hôtel`}
                               className="w-full h-full object-cover"
+                              fill
                               loading="lazy"
                               onError={(e) => {
-                                e.currentTarget.src = 'https://source.unsplash.com/featured/?hotel';
+                                (e.currentTarget as HTMLImageElement).src = 'https://source.unsplash.com/featured/?hotel';
                               }}
                             />
                             <div className="absolute top-4 right-4 bg-white px-3 py-1 rounded-full shadow-lg flex items-center gap-1">

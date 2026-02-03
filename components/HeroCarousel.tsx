@@ -9,6 +9,7 @@ import React, { useRef } from 'react';
 import Slider from 'react-slick';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { motion } from 'motion/react';
+import Image from 'next/image';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
@@ -65,10 +66,11 @@ export default function HeroCarousel({
         {images.map((image, index) => (
           <div key={index} className="relative">
             <div className={`${height} relative`}>
-              <img
+              <Image
                 src={image}
                 alt={`Slide ${index + 1}`}
                 className="w-full h-full object-cover"
+                fill
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
             </div>

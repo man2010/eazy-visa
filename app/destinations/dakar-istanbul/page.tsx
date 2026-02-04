@@ -8,7 +8,11 @@ export const metadata: Metadata = {
     'Réservez votre vol Dakar-Istanbul au meilleur prix. Turkish Airlines et autres compagnies. Paiement Wave, Orange Money, carte. Support 24/7 – Réservation rapide.',
   keywords:
     'billet dakar istanbul, vol dakar istanbul pas cher, turkish airlines dakar, billet avion sénégal turquie',
-  openGraph: {
+  alternates: {
+    canonical: 'https://www.app.eazy-visa.com/destinations/dakar-istanbul',
+  },
+  
+    openGraph: {
     title: 'Billet Avion Dakar Istanbul Pas Cher | Dès 350K FCFA | Eazy-Visa',
     description:
       'Réservez votre vol Dakar-Istanbul au meilleur prix. Turkish Airlines et autres compagnies. Paiement Wave, Orange Money, carte. Support 24/7.',

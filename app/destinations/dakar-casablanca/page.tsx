@@ -8,7 +8,10 @@ export const metadata: Metadata = {
     'Réservez votre vol Dakar-Casablanca au meilleur prix. Royal Air Maroc et autres compagnies. Paiement Wave, Orange Money, carte. Vols fréquents – Réservation 24/7.',
   keywords:
     'billet dakar casablanca, vol dakar casablanca pas cher, royal air maroc dakar, billet avion sénégal maroc',
-  openGraph: {
+  alternates: {
+    canonical: 'https://www.app.eazy-visa.com/destinations/dakar-casablanca',
+  },
+    openGraph: {
     title: 'Billet Avion Dakar Casablanca Pas Cher | Dès 250K FCFA | Eazy-Visa',
     description:
       'Réservez votre vol Dakar-Casablanca au meilleur prix. Royal Air Maroc et autres compagnies. Paiement Wave, Orange Money, carte. Vols fréquents.',

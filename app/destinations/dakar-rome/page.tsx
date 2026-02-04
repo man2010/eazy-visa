@@ -8,7 +8,10 @@ export const metadata: Metadata = {
     'Réservez votre vol Dakar-Rome au meilleur prix. Alitalia, ITA Airways, TAP Air Portugal, Air France. Paiement Wave, Orange Money, carte. Vols via escales – Réservation 24/7.',
   keywords:
     'billet dakar rome, vol dakar rome pas cher, ita airways dakar, billet avion sénégal italie',
-  openGraph: {
+  alternates: {
+    canonical: 'https://www.app.eazy-visa.com/destinations/dakar-rome',
+  },
+    openGraph: {
     title: 'Billet Avion Dakar Rome Pas Cher | Dès 350K FCFA | Eazy-Visa',
     description:
       'Réservez votre vol Dakar-Rome au meilleur prix. Alitalia, ITA Airways, TAP Air Portugal, Air France. Paiement Wave, Orange Money, carte. Support 24/7.',

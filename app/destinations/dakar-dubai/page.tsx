@@ -8,7 +8,10 @@ export const metadata: Metadata = {
     'Réservez votre vol Dakar-Dubaï au meilleur prix. Emirates, Turkish Airlines, Qatar Airways. Paiement Wave, Orange Money, carte. Vols via escales – Réservation 24/7.',
   keywords:
     'billet dakar dubai, vol dakar dubai pas cher, emirates dakar, billet avion sénégal emirats arabes unis',
-  openGraph: {
+  alternates: {
+    canonical: 'https://www.app.eazy-visa.com/destinations/dakar-dubai',
+  },
+    openGraph: {
     title: 'Billet Avion Dakar Dubaï Pas Cher | Dès 450K FCFA | Eazy-Visa',
     description:
       'Réservez votre vol Dakar-Dubaï au meilleur prix. Emirates, Turkish Airlines, Qatar Airways. Paiement Wave, Orange Money, carte. Support 24/7.',

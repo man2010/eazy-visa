@@ -150,9 +150,9 @@ export default function InvestmentPage() {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+            <h1 className="text-3xl md:text-4xl font-bold mb-4">
               Une Croissance Exceptionnelle
-            </h2>
+            </h1>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               Des résultats qui parlent d'eux-mêmes
             </p>

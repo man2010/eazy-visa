@@ -153,9 +153,9 @@ export default function PartnershipPage() {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 mt-4">
+            <h1 className="text-3xl md:text-4xl font-bold mb-4 mt-4">
               Un Partenariat Gagnant-Gagnant
-            </h2>
+            </h1>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               Ensemble, créons de la valeur pour nos clients
             </p>

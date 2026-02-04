@@ -28,11 +28,10 @@ export default function robots(): MetadataRoute.Robots {
         userAgent: 'Bingbot',
         allow: '/',
         disallow: ['/api/', '/admin/'],
-        crawlDelay: 1,
+        crawlDelay: 0,
       },
     ],
     sitemap: `${baseUrl}/sitemap.xml`,
-    host: 'www.app.eazy-visa.com',
   };
 }
 

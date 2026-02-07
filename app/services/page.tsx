@@ -5,9 +5,8 @@
 
 import type { Metadata } from 'next';
 
-const siteUrl = process.env.NODE_ENV === 'production' 
-  ? 'https://www.app.eazy-visa.com' 
-  : 'http://localhost:3000';
+const siteUrl = 'https://www.app.eazy-visa.com' 
+  
 
 export const metadata: Metadata = {
   title: 'Tout Ce Qu\'il Faut pour Voyager Sereinement | Eazy-Visa',

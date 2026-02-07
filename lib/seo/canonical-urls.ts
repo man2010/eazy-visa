@@ -3,12 +3,11 @@
  * Prevent duplicate content issues with proper canonical tags
  */
 
-const SITE_URL = process.env.NODE_ENV === 'production' 
-  ? 'https://www.app.eazy-visa.com' 
-  : 'http://localhost:3000';
+const SITE_URL = 'https://www.app.eazy-visa.com'
 
 export const CANONICAL_URLS = {
   home: `${SITE_URL}/`,
+  acceuil: `${SITE_URL}/acceuil`,
   billets: `${SITE_URL}/billets`,
   hotels: `${SITE_URL}/hotels`,
   services: `${SITE_URL}/services`,

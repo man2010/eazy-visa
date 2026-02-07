@@ -5,9 +5,7 @@
 
 import { MetadataRoute } from 'next';
 
-const baseUrl = process.env.NODE_ENV === 'production'
-  ? 'https://www.app.eazy-visa.com'
-  : 'http://localhost:3000';
+const baseUrl = 'https://www.app.eazy-visa.com'
 
 export default function robots(): MetadataRoute.Robots {
   return {

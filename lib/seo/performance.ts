@@ -111,11 +111,23 @@ export const CSS_OPTIMIZATION = {
 export const CODE_SPLITTING = {
   // Routes that should be code-split
   routes: [
+    
+    '/acceuil',
     '/billets',
     '/hotels',
     '/voyager-en-allemagne',
     '/services',
     '/a-propos',
+    'destinations',
+    'destinations/dakar-paris',
+    'destinations/dakar-rome',
+    'destinations/dakar-new-york',
+    'destinations/dakar-casablanca',
+    'destinations/dakar-istanbul',
+    'destinations/dakar-dubai',
+    'destinations/dakar-bruxelles',
+    'destinations/dakar-madrid',
+    'destinations/dakar-montreal',
   ],
   
   // Components that should be lazy-loaded

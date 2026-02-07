@@ -5,9 +5,7 @@
 
 import { MetadataRoute } from 'next';
 
-const baseUrl = process.env.NODE_ENV === 'production'
-  ? 'https://www.app.eazy-visa.com'
-  : 'http://localhost:3000';
+const baseUrl = 'https://www.app.eazy-visa.com'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
@@ -23,6 +21,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     
     // PAGES PRINCIPALES
     {
+      url: `${baseUrl}/acceuil`,
+      lastModified: now,
+      changeFrequency: 'daily',
+      priority: 0.95,
+    },
+
+    {
       url: `${baseUrl}/billets`,
       lastModified: now,
       changeFrequency: 'daily',
@@ -32,7 +37,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       url: `${baseUrl}/hotels`,
       lastModified: now,
       changeFrequency: 'daily',
-      priority: 0.90,
+      priority: 0.95,
     },
     {
       url: `${baseUrl}/voyager-en-allemagne`,
@@ -44,7 +49,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       url: `${baseUrl}/services`,
       lastModified: now,
       changeFrequency: 'weekly',
-      priority: 0.85,
+      priority: 0.95,
     },
     {
       url: `${baseUrl}/destinations`,
@@ -68,7 +73,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       url: `${baseUrl}/destinations/dakar-new-york`,
       lastModified: now,
       changeFrequency: 'weekly',
-      priority: 0.90,
+      priority: 0.95,
     },
     {
       url: `${baseUrl}/destinations/dakar-casablanca`,
@@ -112,7 +117,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       url: `${baseUrl}/a-propos`,
       lastModified: now,
       changeFrequency: 'monthly',
-      priority: 0.80,
+      priority: 0.95,
     },
     {
       url: `${baseUrl}/cgu`,

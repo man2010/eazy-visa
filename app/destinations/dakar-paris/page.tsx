@@ -7,18 +7,20 @@
 import type { Metadata } from 'next';
 import DakarParisClient from './DakarParisClient';
 
+const siteUrl = 'https://eazy-visa.com'; // URL de production pour les métadonnées
+
 export const metadata: Metadata = {
   title: 'Billet Avion Dakar Paris Pas Cher | Dès 400K FCFA | Eazy-Visa',
   description: 'Réservez votre vol Dakar-Paris au meilleur prix. Paiement Wave/Orange Money/Carte. Vols directs ou escales. Support 24/7. Annulation flexible.',
   keywords: 'billet dakar paris, vol dakar paris pas cher, billet avion sénégal france',
   alternates: {
-    canonical: 'https://www.app.eazy-visa.com/destinations/dakar-paris',
+    canonical: `${siteUrl}/destinations/dakar-paris`,
   },
   openGraph: {
     title: 'Billet Avion Dakar Paris Pas Cher | Dès 400K FCFA | Eazy-Visa',
     description: 'Réservez votre vol Dakar-Paris au meilleur prix. Paiement Wave/Orange Money/Carte. Vols directs ou escales. Support 24/7. Annulation flexible.',
     images: [{ url: '/og-dakar-paris.jpg' }],
-    url: 'https://www.app.eazy-visa.com/destinations/dakar-paris',
+    url: `${siteUrl}/destinations/dakar-paris`,
     type: 'website',
   },
   twitter: {

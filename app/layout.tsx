@@ -7,8 +7,7 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import PWAInstallPrompt from '@/components/PWAInstallPrompt';
 
-const isProduction = process.env.NODE_ENV === 'production';
-const siteUrl = isProduction ? 'https://www.app.eazy-visa.com' : 'http://localhost:3000';
+const siteUrl = 'https://eazy-visa.com'; // URL de production pour les métadonnées
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),

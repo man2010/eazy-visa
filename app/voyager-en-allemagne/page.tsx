@@ -5,7 +5,7 @@
 
 import type { Metadata } from 'next';
 
-const siteUrl =  'https://www.app.eazy-visa.com' 
+const siteUrl =  'https://eazy-visa.com' 
 
 export const metadata: Metadata = {
   title: 'Visa Allemagne depuis le Sénégal | Eazy-Visa',

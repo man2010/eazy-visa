@@ -5,7 +5,7 @@
 
 import { MetadataRoute } from 'next';
 
-const baseUrl = 'https://www.app.eazy-visa.com'
+const baseUrl = 'https://eazy-visa.com'
 
 export default function robots(): MetadataRoute.Robots {
   return {

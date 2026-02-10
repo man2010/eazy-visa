@@ -1,8 +1,6 @@
 import type { Metadata } from 'next';
 
-const siteUrl = process.env.NODE_ENV === 'production' 
-  ? 'https://www.app.eazy-visa.com' 
-  : 'http://localhost:3000';
+const siteUrl = 'https://eazy-visa.com'; // URL de production pour les métadonnées
 
 export const metadata: Metadata = {
   title: 'Carrières | Rejoignez Notre Équipe | Eazy-Visa Dakar',

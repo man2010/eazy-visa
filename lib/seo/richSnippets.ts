@@ -142,9 +142,7 @@ export function generatePersonSchema(data: {
  * KNOWLEDGE GRAPH - Informations principales
  */
 export function generateKnowledgeGraphSchema() {
-  const baseUrl = process.env.NODE_ENV === 'production'
-    ? 'https://www.app.eazy-visa.com'
-    : 'http://localhost:3000';
+  const baseUrl = 'https://eazy-visa.com'
 
   return {
     '@context': 'https://schema.org',

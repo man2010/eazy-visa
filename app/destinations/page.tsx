@@ -7,19 +7,21 @@
 import type { Metadata } from 'next';
 import DestinationsClient from './DestinationsClient';
 
+const siteUrl = 'https://eazy-visa.com'; // URL de production pour les métadonnées
+
 export const metadata: Metadata = {
   title: 'Destinations Populaires depuis Dakar | Billets Avion Pas Cher | Eazy-Visa',
   description: 'Découvrez nos vols depuis Dakar vers Paris, Istanbul, Casablanca et plus. Billets avion pas cher avec paiement Wave/Orange Money. Réservez en ligne 24/7.',
   keywords: 'destinations Dakar, vols depuis Dakar, billets avion Sénégal, voyage Dakar',
   alternates: {
-    canonical: 'https://www.app.eazy-visa.com/destinations',
+    canonical: `${siteUrl}/destinations`,
   },
 
   openGraph: {
     title: 'Destinations Populaires depuis Dakar | Billets Avion Pas Cher | Eazy-Visa',
     description: 'Découvrez nos vols depuis Dakar vers Paris, Istanbul, Casablanca et plus. Billets avion pas cher avec paiement Wave/Orange Money. Réservez en ligne 24/7.',
     images: [{ url: '/og-destinations.jpg' }],
-    url: 'https://www.app.eazy-visa.com/destinations',
+    url: `${siteUrl}/destinations`,
     type: 'website',
   },
   twitter: {

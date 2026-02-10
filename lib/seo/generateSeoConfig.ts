@@ -5,7 +5,7 @@
 
 export const SEO_CONFIG = {
   // URLS DE BASE
-  baseUrl: 'https://www.app.eazy-visa.com',
+  baseUrl: 'https://eazy-visa.com',
 
   // DONNÉES LOCALES
   locale: 'fr_SN',
@@ -19,7 +19,7 @@ export const SEO_CONFIG = {
   
   // CONTACT
   phone: '+221 76 948 60 60',
-  email: 'contact@eazy-visa.com',
+  email: 'service@eazy-visa.com',
   
   // LOCALISATION
   address: {

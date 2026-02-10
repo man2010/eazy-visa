@@ -6,9 +6,7 @@
 
 import { Metadata } from 'next';
 
-const baseUrl = process.env.NODE_ENV === 'production' 
-  ? 'https://www.app.eazy-visa.com' 
-  : 'http://localhost:3000';
+const baseUrl = 'https://eazy-visa.com'; // URL de production pour les métadonnées
 
 export const metadata: Metadata = {
   title: 'Billets d\'Avion Pas Cher depuis Dakar | Eazy-Visa',

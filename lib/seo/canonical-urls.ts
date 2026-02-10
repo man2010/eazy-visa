@@ -3,7 +3,7 @@
  * Prevent duplicate content issues with proper canonical tags
  */
 
-const SITE_URL = 'https://www.app.eazy-visa.com'
+const SITE_URL = 'https://eazy-visa.com'
 
 export const CANONICAL_URLS = {
   home: `${SITE_URL}/`,

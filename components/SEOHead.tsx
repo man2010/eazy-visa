@@ -7,9 +7,7 @@
 import { generateKnowledgeGraphSchema } from '@/lib/seo/richSnippets';
 
 export function SEOHead() {
-  const baseUrl = process.env.NODE_ENV === 'production'
-    ? 'https://www.app.eazy-visa.com'
-    : 'http://localhost:3000';
+  const baseUrl = 'https://eazy-visa.com'; // URL de production pour les métadonnées
 
   const knowledgeGraph = generateKnowledgeGraphSchema();
 

@@ -33,6 +33,22 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'daily',
       priority: 0.95,
     },
+
+    {
+      url: `${baseUrl}/billeterie`,
+      lastModified: now,
+      changeFrequency: 'daily',
+      priority: 0.95,
+    },
+
+    {
+      url: `${baseUrl}/agence-voyage-dakar-senegal`,
+      lastModified: now,
+      changeFrequency: 'daily',
+      priority: 0.95,
+    },
+
+
     {
       url: `${baseUrl}/hotels`,
       lastModified: now,

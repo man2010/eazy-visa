@@ -9,6 +9,8 @@ export const CANONICAL_URLS = {
   home: `${SITE_URL}/`,
   acceuil: `${SITE_URL}/acceuil`,
   billets: `${SITE_URL}/billets`,
+  billeterie: `${SITE_URL}/billeterie`,
+  agenceVoyage: `${SITE_URL}/agence-voyage-dakar-senegal`,
   hotels: `${SITE_URL}/hotels`,
   services: `${SITE_URL}/services`,
   visaAllemagne: `${SITE_URL}/voyager-en-allemagne`,

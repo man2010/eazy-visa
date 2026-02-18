@@ -408,8 +408,6 @@ export default function BilletteriePage() {
       <section
         className="py-20 bg-white"
         aria-label="Services de billetterie Eazy-Visa Dakar"
-        itemScope
-        itemType="https://schema.org/ItemList"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
@@ -439,9 +437,6 @@ export default function BilletteriePage() {
                   transition={{ delay: index * 0.1 }}
                   whileHover={{ y: -5, scale: 1.02 }}
                   className="bg-white rounded-2xl p-8 shadow-xl text-center flex flex-col items-center"
-                  itemScope
-                  itemType="https://schema.org/Service"
-                  itemProp="itemListElement"
                 >
                   <motion.div
                     initial={{ scale: 0 }}
@@ -452,8 +447,8 @@ export default function BilletteriePage() {
                   >
                     <Icon className="w-8 h-8 text-white" aria-hidden="true" />
                   </motion.div>
-                  <h3 className="text-xl font-bold mb-3" itemProp="name">{svc.label}</h3>
-                  <p className="text-gray-600 text-sm leading-relaxed mb-6 flex-grow" itemProp="description">
+                  <h3 className="text-xl font-bold mb-3">{svc.label}</h3>
+                  <p className="text-gray-600 text-sm leading-relaxed mb-6 flex-grow">
                     {svc.description}
                   </p>
                   <motion.a
@@ -551,8 +546,6 @@ export default function BilletteriePage() {
       <section
         className="py-20 bg-white"
         aria-label="Destinations vols depuis Dakar"
-        itemScope
-        itemType="https://schema.org/ItemList"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
@@ -580,9 +573,6 @@ export default function BilletteriePage() {
                 transition={{ delay: index * 0.07 }}
                 whileHover={{ y: -6 }}
                 className="group rounded-2xl overflow-hidden shadow-xl cursor-pointer hover:shadow-2xl transition-all"
-                itemScope
-                itemType="https://schema.org/TouristDestination"
-                itemProp="itemListElement"
                 onClick={() =>
                   window.open(
                     wa(`Bonjour Eazy-Visa ! Je voudrais un billet avion Dakar → ${dest.name} (${dest.code}). Pouvez-vous me faire un devis ?`),
@@ -604,7 +594,6 @@ export default function BilletteriePage() {
                     fill
                     className="object-cover group-hover:scale-110 transition-transform duration-500"
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                    itemProp="image"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
                   <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm rounded-full px-2 py-1 text-xs font-bold">
@@ -612,7 +601,7 @@ export default function BilletteriePage() {
                   </div>
                 </div>
                 <div className="bg-white p-4">
-                  <h3 className="font-bold text-lg text-gray-900 mb-1" itemProp="name">{dest.name}</h3>
+                  <h3 className="font-bold text-lg text-gray-900 mb-1">{dest.name}</h3>
                   <div className="flex items-center justify-between">
                     <span className="text-[#A11C1C] font-bold text-sm">{dest.price}</span>
                     <span className="text-[#25D366] text-xs font-semibold flex items-center gap-1">
@@ -700,10 +689,8 @@ export default function BilletteriePage() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            itemScope
-            itemType="https://schema.org/Article"
           >
-            <h2 className="text-3xl font-bold text-gray-900 mb-6" itemProp="headline">
+            <h2 className="text-3xl font-bold text-gray-900 mb-6">
               La billetterie aérienne à Dakar : tout ce que vous devez savoir
             </h2>
             <p className="text-gray-700 leading-relaxed mb-6 text-lg">
@@ -741,8 +728,6 @@ export default function BilletteriePage() {
       <section
         className="py-20"
         aria-label="Contact et FAQ billetterie Eazy-Visa"
-        itemScope
-        itemType="https://schema.org/FAQPage"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="bg-[#A11C1C] rounded-3xl overflow-hidden">
@@ -821,13 +806,9 @@ export default function BilletteriePage() {
                       viewport={{ once: true }}
                       transition={{ delay: index * 0.1 }}
                       className="bg-white/10 backdrop-blur-sm rounded-lg p-4 cursor-pointer group"
-                      itemScope
-                      itemType="https://schema.org/Question"
-                      itemProp="mainEntity"
                     >
                       <summary
                         className="font-semibold flex items-center justify-between"
-                        itemProp="name"
                       >
                         {item.question}
                         <ChevronRight
@@ -837,11 +818,8 @@ export default function BilletteriePage() {
                       </summary>
                       <p
                         className="mt-4 text-red-100 text-sm leading-relaxed"
-                        itemScope
-                        itemType="https://schema.org/Answer"
-                        itemProp="acceptedAnswer"
                       >
-                        <span itemProp="text">{item.answer}</span>
+                        {item.answer}
                       </p>
                     </motion.details>
                   ))}

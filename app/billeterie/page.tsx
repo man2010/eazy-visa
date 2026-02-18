@@ -5,7 +5,7 @@ import BilletteriePage from './BilleteriePage';
 // ✅ TITLE: 58 caractères (OPTIMAL 50-60)
 // ✅ DESCRIPTION: 158 caractères (OPTIMAL 150-160)
 export const metadata: Metadata = {
-  title: 'Billetterie Dakar | Billets Avion Pas Cher - Eazy-Visa',
+  title: 'Billetterie Dakar | Billets Avion Pas Cher – Eazy-Visa',
 
   description:
     'Billetterie n°1 à Dakar : billets avion, hôtels, transport & assurance voyage. Amadeus, Sabre, Galileo. Toutes destinations. Devis gratuit 24/7. ☎ +221 76 767 67 38',
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     locale: 'fr_SN',
     url: 'https://eazy-visa.com/billetterie',
     siteName: 'Eazy-Visa',
-    title: 'Billetterie Dakar | Billets Avion Toutes Destinations - Eazy-Visa',
+    title: 'Billetterie Dakar | Billets Avion Toutes Destinations – Eazy-Visa',
     description:
       'Billets avion pas cher depuis Dakar. Amadeus · Sabre · Galileo. Hôtels, transport & assurance. Devis gratuit en 5 min. Service 24/7.',
     images: [
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
         url: 'https://eazy-visa.com/og-billetterie.jpg',
         width: 1200,
         height: 630,
-        alt: 'Billetterie Eazy-Visa Dakar - Billets avion toutes destinations',
+        alt: 'Billetterie Eazy-Visa Dakar – Billets avion toutes destinations',
         type: 'image/jpeg',
       },
     ],
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     site: '@EazyVisa',
     creator: '@EazyVisa',
-    title: 'Billetterie Dakar | Billets Avion Pas Cher - Eazy-Visa',
+    title: 'Billetterie Dakar | Billets Avion Pas Cher – Eazy-Visa',
     description: 'Réservez vos billets avion depuis Dakar. Amadeus, Sabre, Galileo. 24/7.',
     images: ['https://eazy-visa.com/og-billetterie.jpg'],
   },
@@ -107,7 +107,7 @@ const serviceSchema = {
   '@type': 'Service',
   '@id': 'https://eazy-visa.com/billetterie/#service',
   serviceType: 'Billetterie aérienne',
-  name: 'Billetterie - Billets Avion Toutes Destinations',
+  name: 'Billetterie – Billets Avion Toutes Destinations',
   description:
     'Réservation de billets avion pas cher depuis Dakar vers toutes destinations mondiales. Systèmes GDS Amadeus, Sabre et Galileo. Hôtels, transport et assurance voyage inclus.',
   url: 'https://eazy-visa.com/billetterie',
@@ -145,13 +145,24 @@ const serviceSchema = {
   },
 };
 
-/** BreadcrumbList */
+/** BreadcrumbList — @id requis car référencé par WebPage.breadcrumb */
 const breadcrumbSchema = {
   '@context': 'https://schema.org',
   '@type': 'BreadcrumbList',
+  '@id': 'https://eazy-visa.com/billetterie/#breadcrumb',
   itemListElement: [
-    { '@type': 'ListItem', position: 1, name: 'Accueil', item: 'https://eazy-visa.com' },
-    { '@type': 'ListItem', position: 2, name: 'Billetterie', item: 'https://eazy-visa.com/billetterie' },
+    {
+      '@type': 'ListItem',
+      position: 1,
+      name: 'Accueil',
+      item: { '@type': 'Thing', '@id': 'https://eazy-visa.com', name: 'Accueil' },
+    },
+    {
+      '@type': 'ListItem',
+      position: 2,
+      name: 'Billetterie',
+      item: { '@type': 'Thing', '@id': 'https://eazy-visa.com/billetterie', name: 'Billetterie' },
+    },
   ],
 };
 

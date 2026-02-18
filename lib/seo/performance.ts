@@ -115,6 +115,7 @@ export const CODE_SPLITTING = {
     '/acceuil',
     '/billets',
     '/billeterie',
+    '/billet-avion-dakar',
     '/agence-voyage-dakar-senegal',
     '/hotels',
     '/voyager-en-allemagne',

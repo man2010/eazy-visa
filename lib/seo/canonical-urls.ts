@@ -10,6 +10,7 @@ export const CANONICAL_URLS = {
   acceuil: `${SITE_URL}/acceuil`,
   billets: `${SITE_URL}/billets`,
   billeterie: `${SITE_URL}/billeterie`,
+  billetAvionDakar: `${SITE_URL}/billet-avion-dakar`,
   agenceVoyage: `${SITE_URL}/agence-voyage-dakar-senegal`,
   hotels: `${SITE_URL}/hotels`,
   services: `${SITE_URL}/services`,

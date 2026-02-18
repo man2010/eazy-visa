@@ -42,6 +42,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
 
     {
+      url: `${baseUrl}/billet-avion-dakar`,
+      lastModified: now,
+      changeFrequency: 'daily',
+      priority: 0.95,
+    },
+
+
+    {
       url: `${baseUrl}/agence-voyage-dakar-senegal`,
       lastModified: now,
       changeFrequency: 'daily',

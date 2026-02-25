@@ -1,10 +1,11 @@
 'use client';
-import { motion } from 'motion/react';
+import { useRef } from 'react';
+import { useRouter } from 'next/navigation';
+import { motion, AnimatePresence } from 'motion/react';
 import Image from 'next/image';
 import { useState } from 'react';
-
 // ── composants privés
-import HeroCarousel      from '@/components/HeroCarousel';
+import HeroCarousel from '@/components/HeroCarousel';
 import FlightResultsModal from '@/components/FlightResultsModal';
 
 // ── icônes
@@ -32,13 +33,46 @@ export default function HomePage() {
     return nextWeek.toISOString().split('T')[0];
   };
 
+  const router = useRouter();
+
+
+
+
+
+
+
+
+
+
+
+
+
   const [flightData, setFlightData] = useState({
-    from: 'DSS - Blaise Diagne International Airport',
-    to: 'CDG - Charles de Gaulle',
-    departDate: getNextWeekDate(), // ✅ Date dans le futur
-    returnDate: '', // ✅ Vide par défaut
+    from: '',           // ← Vide (pas de pré-remplissage)
+    fromCode: '',       // ← Nouveau (code IATA)
+    to: '',             // ← Vide (pas de pré-remplissage)
+    toCode: '',         // ← Nouveau (code IATA)
+    departDate: getNextWeekDate(),
+    returnDate: '',
     passengers: 1,
   });
+
+  // Ajouter états autocomplétion
+  const [fromSuggestions, setFromSuggestions] = useState<any[]>([]);
+  const [toSuggestions, setToSuggestions] = useState<any[]>([]);
+  const [loadingSuggestions, setLoadingSuggestions] = useState(false);
+
+  // Refs pour focus
+  const fromInputRef = useRef<HTMLInputElement>(null);
+  const toInputRef = useRef<HTMLInputElement>(null);
+
+
+
+
+
+
+
+
 
   // État pour le modal
   const [isFlightModalOpen, setIsFlightModalOpen] = useState(false);
@@ -157,12 +191,87 @@ export default function HomePage() {
     },
   ];
 
+
+
+
+
+
+  // Recherche d'aéroports/villes (même logique que BilletsSearchClient)
+  const searchLocations = async (keyword: string, field: 'from' | 'to') => {
+    if (keyword.length < 2) {
+      field === 'from' ? setFromSuggestions([]) : setToSuggestions([]);
+      return;
+    }
+
+    // Fallback manuel pour Dakar
+    if (keyword.toLowerCase().includes('dakar')) {
+      const dakarSuggestion = {
+        iataCode: 'DSS',
+        name: 'Aéroport international Blaise Diagne',
+        city: 'Dakar',
+        country: 'Sénégal',
+        fullLabel: 'DSS - Aéroport international Blaise Diagne, Dakar, Sénégal',
+      };
+      field === 'from' ? setFromSuggestions([dakarSuggestion]) : setToSuggestions([dakarSuggestion]);
+      return;
+    }
+
+    setLoadingSuggestions(true);
+    try {
+      const res = await fetch(
+        `${API_URL}/flights/locations?keyword=${encodeURIComponent(keyword)}&subType=AIRPORT,CITY`
+      );
+      const data = await res.json();
+
+      if (data.success && data.data) {
+        const suggestions = data.data.slice(0, 8).map((loc: any) => ({
+          iataCode: loc.iataCode,
+          name: loc.name,
+          city: loc.address?.cityName || '',
+          country: loc.address?.countryName || '',
+          fullLabel: `${loc.iataCode} - ${loc.name}, ${loc.address?.cityName}, ${loc.address?.countryName}`,
+        }));
+        field === 'from' ? setFromSuggestions(suggestions) : setToSuggestions(suggestions);
+      } else {
+        field === 'from' ? setFromSuggestions([]) : setToSuggestions([]);
+      }
+    } catch (err) {
+      console.error('Erreur autocomplétion:', err);
+      field === 'from' ? setFromSuggestions([]) : setToSuggestions([]);
+    } finally {
+      setLoadingSuggestions(false);
+    }
+  };
+
+  const selectLocation = (suggestion: any, field: 'from' | 'to') => {
+    if (field === 'from') {
+      setFlightData(prev => ({
+        ...prev,
+        from: suggestion.fullLabel,
+        fromCode: suggestion.iataCode,
+      }));
+      setFromSuggestions([]);
+      toInputRef.current?.focus();
+    } else {
+      setFlightData(prev => ({
+        ...prev,
+        to: suggestion.fullLabel,
+        toCode: suggestion.iataCode,
+      }));
+      setToSuggestions([]);
+    }
+  };
+
+
+
+
+
   // Fonction de recherche qui ouvre le modal
   const handleSearch = () => {
-    // Valider les données
-    if (!flightData.from || !flightData.to || !flightData.departDate) {
+    // Valider avec fromCode/toCode au lieu de from/to
+    if (!flightData.fromCode || !flightData.toCode || !flightData.departDate) {
       toast.error('Informations manquantes', {
-        description: 'Veuillez remplir tous les champs obligatoires',
+        description: 'Veuillez sélectionner un départ et une arrivée valides',
       });
       return;
     }
@@ -171,7 +280,7 @@ export default function HomePage() {
     const departDate = new Date(flightData.departDate);
     const today = new Date();
     today.setHours(0, 0, 0, 0);
-    
+
     if (departDate < today) {
       toast.error('Date invalide', {
         description: 'La date de départ doit être dans le futur',
@@ -201,7 +310,7 @@ export default function HomePage() {
 
     // Ouvrir le modal
     setIsFlightModalOpen(true);
-    
+
     toast.success('Recherche lancée !', {
       description: 'Chargement des vols disponibles...',
     });
@@ -217,10 +326,10 @@ export default function HomePage() {
             height="h-[670px]"
             title={"Arrêtez de Payer Trop Cher. Voyagez Plus."}
             subtitle={"Le meilleur prix garanti, un service 24/7, et des milliers de voyageurs satisfaits. Votre prochaine aventure commence ici."}
-            ctaText="Découvrir nos offres"
-            ctaTargetId="main-content"
+            ctaText="En savoir plus"
+            ctaTargetId="/a-propos"
           />
-          
+
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -249,34 +358,106 @@ export default function HomePage() {
                 className="space-y-3 sm:space-y-4"
               >
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-                  <div className="lg:col-span-1">
-                    <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1 sm:mb-2">
+                  {/* FROM - Départ avec autocomplétion */}
+                  <div className="lg:col-span-1 relative">
+                    <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1 sm:mb-2" htmlFor="departure-input">
                       Départ
                     </label>
                     <div className="relative">
-                      <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-gray-400" />
+                      <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-gray-400 pointer-events-none" aria-hidden="true" />
                       <input
+                        id="departure-input"
+                        ref={fromInputRef}
                         type="text"
                         value={flightData.from}
-                        onChange={(e) => setFlightData({ ...flightData, from: e.target.value })}
+                        onChange={(e) => {
+                          setFlightData(prev => ({ ...prev, from: e.target.value, fromCode: '' }));
+                          searchLocations(e.target.value, 'from');
+                        }}
+                        placeholder="Ex: Dakar"
+                        aria-label="Ville de départ"
+                        autoComplete="off"
                         className="w-full pl-9 sm:pl-10 pr-3 sm:pr-4 py-2 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#A11C1C] focus:border-transparent transition-all"
                       />
                     </div>
+
+                    {/* Dropdown suggestions FROM */}
+                    <AnimatePresence>
+                      {fromSuggestions.length > 0 && (
+                        <motion.div
+                          initial={{ opacity: 0, y: -10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -10 }}
+                          className="absolute top-full left-0 right-0 mt-2 bg-white rounded-xl shadow-2xl border border-gray-200 z-50 overflow-hidden max-h-80 overflow-y-auto"
+                        >
+                          {fromSuggestions.map((sug, i) => (
+                            <button
+                              key={i}
+                              onClick={() => selectLocation(sug, 'from')}
+                              className="w-full text-left px-4 py-3 hover:bg-[#A11C1C]/5 transition-colors flex items-center gap-3 border-b border-gray-100 last:border-0"
+                              type="button"
+                            >
+                              <Plane className="w-5 h-5 text-[#A11C1C] flex-shrink-0" aria-hidden="true" />
+                              <div className="min-w-0">
+                                <p className="font-semibold text-sm truncate">{sug.iataCode} - {sug.name}</p>
+                                <p className="text-xs text-gray-600 truncate">{sug.city}, {sug.country}</p>
+                              </div>
+                            </button>
+                          ))}
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
                   </div>
 
-                  <div className="lg:col-span-1">
-                    <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1 sm:mb-2">
+                  {/* TO - Arrivée avec autocomplétion */}
+                  <div className="lg:col-span-1 relative">
+                    <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1 sm:mb-2" htmlFor="arrival-input">
                       Arrivée
                     </label>
                     <div className="relative">
-                      <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-gray-400" />
+                      <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-gray-400 pointer-events-none" aria-hidden="true" />
                       <input
+                        id="arrival-input"
+                        ref={toInputRef}
                         type="text"
                         value={flightData.to}
-                        onChange={(e) => setFlightData({ ...flightData, to: e.target.value })}
+                        onChange={(e) => {
+                          setFlightData(prev => ({ ...prev, to: e.target.value, toCode: '' }));
+                          searchLocations(e.target.value, 'to');
+                        }}
+                        placeholder="Ex: Paris"
+                        aria-label="Ville d'arrivée"
+                        autoComplete="off"
                         className="w-full pl-9 sm:pl-10 pr-3 sm:pr-4 py-2 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#A11C1C] focus:border-transparent transition-all"
                       />
                     </div>
+
+                    {/* Dropdown suggestions TO */}
+                    <AnimatePresence>
+                      {toSuggestions.length > 0 && (
+                        <motion.div
+                          initial={{ opacity: 0, y: -10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -10 }}
+                          className="absolute top-full left-0 right-0 mt-2 bg-white rounded-xl shadow-2xl border border-gray-200 z-50 overflow-hidden max-h-80 overflow-y-auto"
+                        >
+                          {toSuggestions.map((sug, i) => (
+                            <button
+                              key={i}
+                              onClick={() => selectLocation(sug, 'to')}
+                              className="w-full text-left px-4 py-3 hover:bg-[#A11C1C]/5 transition-colors flex items-center gap-3 border-b border-gray-100 last:border-0"
+                              type="button"
+                            >
+                              <Plane className="w-5 h-5 text-[#A11C1C] flex-shrink-0" aria-hidden="true" />
+                              <div className="min-w-0">
+                                <p className="font-semibold text-sm truncate">{sug.iataCode} - {sug.name}</p>
+                                <p className="text-xs text-gray-600 truncate">{sug.city}, {sug.country}</p>
+                              </div>
+                            </button>
+                          ))}
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
                   </div>
 
                   <div className="lg:col-span-1">
@@ -337,11 +518,14 @@ export default function HomePage() {
                   >
                     Rechercher
                   </motion.button>
-                  
+
+                  {/* Bouton Hôtels - Redirige vers /hotels */}
                   <motion.button
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
+                    onClick={() => router.push('/hotels')}
                     className="py-2 sm:py-3 border-2 border-gray-300 rounded-lg font-semibold hover:border-[#A11C1C] hover:text-[#A11C1C] transition-all text-sm sm:text-base"
+                    aria-label="Voir les hôtels disponibles"
                   >
                     Afficher les hôtels
                   </motion.button>

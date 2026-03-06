@@ -198,19 +198,19 @@ export default function HomePage() {
 
   const team = [
     {
-      name: 'Bertrand Gopele',
+      name: 'Yves Bertrand Gopele',
       role: 'Manager',
-      image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400',
+      image: '',
     },
     {
       name: 'Ndeye Fatou Hann',
       role: 'Responsable Marketing',
-      image: 'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400',
+      image: '',
     },
     {
-      name: 'Khadijatou Kane',
-      role: 'Apporteur d\'affaires',
-      image: 'https://images.unsplash.com/photo-1589156280159-27698a70f29e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400',
+      name: 'Yan OBAME',
+      role: 'Responsable Commerciale',
+      image: '',
     },
   ];
 

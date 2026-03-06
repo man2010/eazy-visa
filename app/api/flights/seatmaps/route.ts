@@ -1,31 +1,26 @@
+/**
+ * GET /api/flights/seatmaps?offerId=off_xxx
+ * Récupère le plan de cabine pour une offre sélectionnée
+ */
+
 import { NextRequest, NextResponse } from 'next/server';
-import amadeusService from '@/lib/services/amadeus.service';
+import duffelService from '@/lib/services/duffel.service';
 
-export async function POST(req: NextRequest) {
+export async function GET(req: NextRequest) {
   try {
-    const body = await req.json();
-    const { flightOffers } = body;
-
-    if (!flightOffers || !Array.isArray(flightOffers)) {
+    const offerId = req.nextUrl.searchParams.get('offerId');
+    if (!offerId) {
       return NextResponse.json(
-        {
-          success: false,
-          error: 'flightOffers array est requis',
-        },
+        { success: false, error: 'offerId requis' },
         { status: 400 }
       );
     }
-
-    const result = await amadeusService.getSeatmaps(flightOffers);
-
+    const result = await duffelService.getSeatMaps(offerId);
     return NextResponse.json(result);
   } catch (error: any) {
-    console.error('❌ Erreur seatmaps:', error);
+    console.error('❌ Erreur seatmaps Duffel:', error);
     return NextResponse.json(
-      {
-        success: false,
-        error: error.message || 'Erreur lors de la récupération des seatmaps',
-      },
+      { success: false, error: error.message || 'Erreur seatmaps' },
       { status: 500 }
     );
   }

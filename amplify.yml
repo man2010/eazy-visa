@@ -9,6 +9,7 @@ frontend:
         # Exporte TOUTES les vars sensibles au runtime SSR
         - env | grep -e AMADEUS_API_URL -e AMADEUS_CLIENT_ID -e AMADEUS_CLIENT_SECRET >> .env.production
         # Ajoute aussi les autres si besoin (SMTP, MONGODB_URI, etc.)
+        - env | grep -e DUFFEL_API_KEY >> .env.production
         - env | grep -e SMTP_ >> .env.production
         - env | grep -e MONGODB_URI >> .env.production
         - env | grep -e EMAIL_FROM >> .env.production

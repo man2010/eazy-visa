@@ -1,43 +1,58 @@
+/**
+ * POST /api/flights/search
+ * Recherche de vols via Duffel API
+ * 
+ * Body:
+ * {
+ *   slices: [{ origin, destination, departure_date }],   // 1 = aller, 2 = aller-retour
+ *   passengers: [{ type: 'adult'|'child'|'infant_without_seat' }],
+ *   cabin_class?: 'economy'|'premium_economy'|'business'|'first',
+ *   max_connections?: 0|1|2
+ * }
+ */
+
 import { NextRequest, NextResponse } from 'next/server';
-import amadeusService from '@/lib/services/amadeus.service';
+import duffelService from '@/lib/services/duffel.service';
 
-export async function GET(req: NextRequest) {
+export async function POST(req: NextRequest) {
   try {
-    const searchParams = req.nextUrl.searchParams;
-    const origin = searchParams.get('origin');
-    const destination = searchParams.get('destination');
-    const departureDate = searchParams.get('departureDate');
-    const returnDate = searchParams.get('returnDate');
-    const adults = searchParams.get('adults');
+    const body = await req.json();
+    const { slices, passengers, cabin_class, max_connections } = body;
 
-    if (!origin || !destination || !departureDate) {
+    // Validation
+    if (!slices || !Array.isArray(slices) || slices.length === 0) {
       return NextResponse.json(
-        {
-          success: false,
-          error: 'Paramètres manquants: origin, destination, departureDate sont requis',
-        },
+        { success: false, error: 'slices[] est requis (1 = aller simple, 2 = aller-retour)' },
+        { status: 400 }
+      );
+    }
+    for (const slice of slices) {
+      if (!slice.origin || !slice.destination || !slice.departure_date) {
+        return NextResponse.json(
+          { success: false, error: 'Chaque slice doit avoir origin, destination, departure_date' },
+          { status: 400 }
+        );
+      }
+    }
+    if (!passengers || !Array.isArray(passengers) || passengers.length === 0) {
+      return NextResponse.json(
+        { success: false, error: 'passengers[] est requis' },
         { status: 400 }
       );
     }
 
-    const params = {
-      origin: origin.toUpperCase(),
-      destination: destination.toUpperCase(),
-      departureDate,
-      returnDate: returnDate || null,
-      adults: parseInt(adults || '1'),
-    };
-
-    const result = await amadeusService.searchFlights(params);
+    const result = await duffelService.searchFlights({
+      slices,
+      passengers,
+      cabin_class: cabin_class || 'economy',
+      max_connections,
+    });
 
     return NextResponse.json(result);
   } catch (error: any) {
-    console.error('❌ Erreur recherche vols:', error);
+    console.error('❌ Erreur recherche vols Duffel:', error);
     return NextResponse.json(
-      {
-        success: false,
-        error: error.message || 'Erreur lors de la recherche de vols',
-      },
+      { success: false, error: error.message || 'Erreur lors de la recherche de vols' },
       { status: 500 }
     );
   }

@@ -1,70 +1,82 @@
+/**
+ * POST /api/bookings
+ * Crée ET paie la commande en une seule étape via Duffel
+ * (mode test : Duffel Balance illimité)
+ *
+ * Body:
+ * {
+ *   selectedOfferId: "off_xxx",
+ *   passengers: [{
+ *     id: "pas_xxx",          // ID issu de l'offre Duffel
+ *     title: "mr",
+ *     gender: "m",
+ *     given_name: "Prénom",
+ *     family_name: "Nom",
+ *     born_on: "1990-01-15",
+ *     email: "...",
+ *     phone_number: "+22170000000",
+ *     identity_documents: [{ type:"passport", number:"AB123", issuing_country_code:"SN", expires_on:"2030-01-01" }]
+ *   }],
+ *   services: [{ id:"srv_xxx", quantity:1 }],  // bagages / extras
+ *   amount: "120.00",
+ *   currency: "GBP",
+ * }
+ */
+
 import { NextRequest, NextResponse } from 'next/server';
-import connectDB from '@/lib/config/database';
-import Booking from '@/lib/models/booking.model';
-import amadeusService from '@/lib/services/amadeus.service';
+import duffelService from '@/lib/services/duffel.service';
 
 export async function POST(req: NextRequest) {
   try {
-    await connectDB();
-
     const body = await req.json();
-    const { flightOffer, travelers, contacts, paymentMethod } = body;
+    const { selectedOfferId, passengers, services, amount, currency } = body;
 
-    if (!flightOffer || !travelers || !contacts) {
+    if (!selectedOfferId || !passengers?.length || !amount || !currency) {
       return NextResponse.json(
-        {
-          success: false,
-          error: 'Données manquantes',
-        },
+        { success: false, error: 'Données manquantes : selectedOfferId, passengers, amount, currency' },
         { status: 400 }
       );
     }
 
-    // Générer référence unique
-    const bookingReference = `EV${Date.now()}${Math.random().toString(36).substr(2, 4).toUpperCase()}`;
-
-    // Confirmer le prix
-    const pricingResult = await amadeusService.confirmPrice(flightOffer);
-    if (!pricingResult.success) {
-      throw new Error('Impossible de confirmer le prix');
-    }
-
-    const confirmedOffer = pricingResult.data.flightOffers[0];
-    const totalPrice = parseFloat(confirmedOffer.price.total);
-
-    // Créer la réservation
-    const booking = await Booking.create({
-      bookingReference,
-      flightOffer: confirmedOffer,
-      travelers,
-      contacts,
-      totalPrice,
-      paymentMethod,
-      bookingStatus: 'pending_payment',
+    const result = await duffelService.createOrder({
+      selectedOfferId,
+      passengers,
+      services: services || [],
+      amount,
+      currency,
+      metadata: { source: 'eazy-visa-web' },
     });
 
-    console.log('✅ Réservation créée:', bookingReference);
+    if (!result.success) {
+      return NextResponse.json({ success: false, error: 'Échec création commande Duffel' }, { status: 500 });
+    }
+
+    const order = result.data;
+
+    console.log('✅ Commande Duffel créée:', order.booking_reference);
 
     return NextResponse.json(
       {
         success: true,
-        message: 'Réservation créée avec succès',
+        message: 'Réservation confirmée avec succès !',
         data: {
-          bookingReference,
-          totalPrice,
-          currency: 'XOF',
-          bookingId: booking._id,
+          orderId: order.id,
+          bookingReference: order.booking_reference,
+          status: order.payment_status?.awaiting_payment === false ? 'confirmed' : 'pending',
+          passengers: order.passengers,
+          slices: order.slices,
+          totalAmount: order.total_amount,
+          totalCurrency: order.total_currency,
+          documents: order.documents || [],   // billets si disponibles
+          conditions: order.conditions,
         },
       },
       { status: 201 }
     );
   } catch (error: any) {
-    console.error('❌ Erreur création réservation:', error);
+    console.error('❌ Erreur création commande Duffel:', error);
     return NextResponse.json(
-      {
-        success: false,
-        error: error.message || 'Erreur lors de la création de la réservation',
-      },
+      { success: false, error: error.message || 'Erreur lors de la réservation' },
       { status: 500 }
     );
   }

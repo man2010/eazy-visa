@@ -1,39 +1,44 @@
-import { NextRequest, NextResponse } from 'next/server';
-import connectDB from '@/lib/config/database';
-import Booking from '@/lib/models/booking.model';
+/**
+ * GET  /api/bookings/[id]    → Détails de la commande
+ * DELETE /api/bookings/[id]  → Annuler la commande
+ */
 
-// GET /api/bookings/:id - Récupérer une réservation par ID
+import { NextRequest, NextResponse } from 'next/server';
+import duffelService from '@/lib/services/duffel.service';
+
 export async function GET(
   req: NextRequest,
-  { params }: { params: Promise<{ id: string }> }  // ✅ Changé en Promise
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = await params;  // ✅ Await params
-    await connectDB();
+    const { id } = await params;
+    const result = await duffelService.getOrder(id);
+    return NextResponse.json(result);
+  } catch (error: any) {
+    console.error('❌ Erreur get order:', error);
+    return NextResponse.json(
+      { success: false, error: error.message || 'Commande introuvable' },
+      { status: 404 }
+    );
+  }
+}
 
-    const booking = await Booking.findById(id);  // ✅ Utiliser id directement
-
-    if (!booking) {
-      return NextResponse.json(
-        {
-          success: false,
-          error: 'Réservation non trouvée',
-        },
-        { status: 404 }
-      );
-    }
-
+export async function DELETE(
+  req: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  try {
+    const { id } = await params;
+    const result = await duffelService.cancelOrder(id);
     return NextResponse.json({
       success: true,
-      data: booking,
+      message: 'Commande annulée',
+      data: result.data,
     });
   } catch (error: any) {
-    console.error('❌ Erreur récupération réservation:', error);
+    console.error('❌ Erreur annulation:', error);
     return NextResponse.json(
-      {
-        success: false,
-        error: error.message || 'Erreur lors de la récupération de la réservation',
-      },
+      { success: false, error: error.message || 'Erreur annulation' },
       { status: 500 }
     );
   }
